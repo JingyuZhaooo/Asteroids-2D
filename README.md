@@ -1,8 +1,8 @@
 # ITP 380 Labs - Fall 2016 #
 
 ### PUT YOUR INFO HERE ###
-Name: Tommy Trojan
+Name: Jingyu Zhao
 
-Email: ttrojan@usc.edu
+Email: jingyuz@usc.edu
 
-Platform (PC or Mac):
+Platform (PC or Mac): PC
