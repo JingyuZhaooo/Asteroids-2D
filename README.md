@@ -5,4 +5,4 @@ Name: Jingyu Zhao
 
 Email: jingyuz@usc.edu
 
-Platform: PC
+Platform (PC or Mac): PC
