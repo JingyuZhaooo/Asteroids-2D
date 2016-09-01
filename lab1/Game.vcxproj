@@ -14,6 +14,7 @@
     <ClInclude Include="Source\Actor.h" />
     <ClInclude Include="Source\Asset.h" />
     <ClInclude Include="Source\AssetCache.h" />
+    <ClInclude Include="Source\Asteroid.h" />
     <ClInclude Include="Source\CollisionComponent.h" />
     <ClInclude Include="Source\Component.h" />
     <ClInclude Include="Source\FrameTimer.h" />
@@ -37,6 +38,7 @@
     <ClCompile Include="Source\Actor.cpp" />
     <ClCompile Include="Source\Asset.cpp" />
     <ClCompile Include="Source\AssetCache.cpp" />
+    <ClCompile Include="Source\Asteroid.cpp" />
     <ClCompile Include="Source\CollisionComponent.cpp" />
     <ClCompile Include="Source\Component.cpp" />
     <ClCompile Include="Source\DrawComponent.cpp" />
