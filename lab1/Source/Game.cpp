@@ -5,6 +5,7 @@
 #include "SpriteComponent.h"
 #include "Asteroid.h"
 
+
 Game::Game()
 	:mRenderer(*this)
 	,mAssetCache(*this, "Assets/")
@@ -83,7 +84,10 @@ void Game::StartGame()
 		ast->SetPosition(Random::GetVector(minVec, maxVec)); 
 		ast->SetScale(0.75f); 
 	}
-
+	myShip = Ship::Spawn(*this);
+	myShip->SetPosition(Vector3(0.0f, 0.0f, 0.0f));
+	myShip->SetRotation(Math::PiOver2);
+	myShip->SetScale(1.0f);
 }
 
 void Game::ProcessInput()
@@ -99,6 +103,15 @@ void Game::ProcessInput()
 			break;
 		default:
 			//ignore other events for now
+			break;
+		case SDL_KEYDOWN:
+			if (event.key.repeat == 0)
+			{
+				HandleKeyPressed(event.key.keysym.sym);
+			}
+			break;
+		case SDL_KEYUP:
+			HandleKeyReleased(event.key.keysym.sym);
 			break;
 		}
 	}
