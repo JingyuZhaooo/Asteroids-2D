@@ -17,6 +17,12 @@ MoveComponent::MoveComponent(Actor& owner)
 
 void MoveComponent::Tick(float deltaTime)
 {
+	if (!Math::IsZero(mAngularAxis))
+	{
+		float rot = mOwner.GetRotation();
+		rot += mAngularSpeed * mAngularAxis * deltaTime;
+		mOwner.SetRotation(rot);
+	}
 	if (!Math::IsZero(mLinearAxis))
 	{ 
 	// Update velocity based on current forward

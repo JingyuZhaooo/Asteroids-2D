@@ -87,7 +87,7 @@ void Game::StartGame()
 	myShip = Ship::Spawn(*this);
 	myShip->SetPosition(Vector3(0.0f, 0.0f, 0.0f));
 	myShip->SetRotation(Math::PiOver2);
-	myShip->SetScale(1.0f);
+	myShip->SetScale(0.7f);
 }
 
 void Game::ProcessInput()
@@ -119,23 +119,53 @@ void Game::ProcessInput()
 
 void Game::HandleKeyPressed(int key)
 {
-	// TODO
+	switch (key)
+	{
+		
+	case 119: 
+		myShip->GetMoveComponent()->AddToLinearAxis(1.0f);
+		break;
+	case 115:
+		myShip->GetMoveComponent()->AddToLinearAxis(-1.0f);
+		break;
+	case 97:
+		myShip->GetMoveComponent()->AddToAngularAxis(1.0f);
+		break;
+	case 100:
+		myShip->GetMoveComponent()->AddToAngularAxis(-1.0f);
+		break;
+	case SDLK_SPACE:
+		myShip->FireMissle();
+	}
 }
 
 void Game::HandleKeyReleased(int key)
 {
-	// TODO
+	switch (key)
+	{
+
+	case 119:
+		myShip->GetMoveComponent()->AddToLinearAxis(-1.0f);
+		break;
+	case 115:
+		myShip->GetMoveComponent()->AddToLinearAxis(1.0f);
+		break;
+	case 97:
+		myShip->GetMoveComponent()->AddToAngularAxis(-1.0f);
+		break;
+	case 100:
+		myShip->GetMoveComponent()->AddToAngularAxis(1.0f);
+		break;
+	}
 }
 
 void Game::Tick()
 {
-	// TODO
 	float deltaTime = mTimer.GetFrameTime(0.016666f);
 	mWorld.Tick(deltaTime);
 }
 
 void Game::GenerateOutput()
 {
-	// TODO
 	mRenderer.RenderFrame();
 }

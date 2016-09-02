@@ -20,6 +20,7 @@
     <ClInclude Include="Source\FrameTimer.h" />
     <ClInclude Include="Source\Game.h" />
     <ClInclude Include="Source\DrawComponent.h" />
+    <ClInclude Include="Source\Laser.h" />
     <ClInclude Include="Source\Math.h" />
     <ClInclude Include="Source\MoveComponent.h" />
     <ClInclude Include="Source\Object.h" />
@@ -45,6 +46,7 @@
     <ClCompile Include="Source\DrawComponent.cpp" />
     <ClCompile Include="Source\FrameTimer.cpp" />
     <ClCompile Include="Source\Game.cpp" />
+    <ClCompile Include="Source\Laser.cpp" />
     <ClCompile Include="Source\Main.cpp" />
     <ClCompile Include="Source\Math.cpp" />
     <ClCompile Include="Source\MoveComponent.cpp" />
