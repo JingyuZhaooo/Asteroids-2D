@@ -10,6 +10,7 @@ public:
 	Laser(Game& mGame);
 	MoveComponentPtr getLaser();
 	void Tick(float deltatime) override;
+	void BeginTouch(Actor& other) override;
 private:
 	SpriteComponentPtr LaserTexture;
 	MoveComponentPtr moveLaser;

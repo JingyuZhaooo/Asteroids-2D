@@ -163,6 +163,7 @@ void Game::Tick()
 {
 	float deltaTime = mTimer.GetFrameTime(0.016666f);
 	mWorld.Tick(deltaTime);
+	mPhysWorld.Tick(deltaTime);
 }
 
 void Game::GenerateOutput()
