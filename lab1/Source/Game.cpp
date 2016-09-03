@@ -136,6 +136,7 @@ void Game::HandleKeyPressed(int key)
 		break;
 	case SDLK_SPACE:
 		myShip->FireMissle();
+		break;
 	}
 }
 

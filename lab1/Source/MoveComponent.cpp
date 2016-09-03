@@ -41,10 +41,6 @@ void MoveComponent::Tick(float deltaTime)
 		newPosition.y = -382;
 	mOwner.SetPosition(newPosition);
 	}
-	if (Math::IsZero(mLinearAxis))
-	{
-
-	}
 }
 
 void MoveComponent::AddToLinearAxis(float delta)
