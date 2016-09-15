@@ -8,6 +8,7 @@ public:
 	Sound();
 	~Sound();
 	bool Load(const char* fileName, class AssetCache* cache) override;
+	struct Mix_Chunk* GetData();
 private:
 	struct Mix_Chunk* mData;
 };

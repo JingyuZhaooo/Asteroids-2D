@@ -2,6 +2,7 @@
 #include "SpriteComponent.h"
 #include "Actor.h"
 #include "MoveComponent.h"
+#include "AudioComponent.h"
 
 class Laser : public Actor
 {
@@ -15,5 +16,8 @@ private:
 	SpriteComponentPtr LaserTexture;
 	MoveComponentPtr moveLaser;
 	float lifeSpan;
+	SoundPtr asteroidDie;
+	AudioComponentPtr collisionSound;
+	
 };
 DECL_PTR(Laser);

@@ -13,6 +13,7 @@ Laser::Laser(Game& mGame) : Actor(mGame) // Initializer list
 	AssetCache& mAssetCache = mGame.GetAssetCache();
 	TexturePtr tex = mAssetCache.Load<Texture>("Textures/Laser.png");
 	LaserTexture->SetTexture(mAssetCache.Load<Texture>("Textures/Laser.png"));
+	asteroidDie = mAssetCache.Load<Sound>("Sounds/AsteroidDie.wav");
 
 	moveLaser = MoveComponent::Create(*this, Component::PreTick);
 	moveLaser->SetLinearSpeed(600.0f);
@@ -45,6 +46,8 @@ void Laser::BeginTouch(Actor& other)
 		SetIsAlive(false);
 		other.SetIsAlive(false);
 		Vector3 deadAsteroid= other.GetPosition();
+		
+		collisionSound->PlaySound(asteroidDie);
 		if (other.GetScale() == 0.75)
 		{
 			for (int i = 0; i < 4; i++)
