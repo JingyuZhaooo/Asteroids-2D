@@ -46,13 +46,13 @@ void Laser::BeginTouch(Actor& other)
 		other.SetIsAlive(false);
 		Vector3 deadAsteroid= other.GetPosition();
 		if (other.GetScale() == 0.75)
-		{ 
+		{
 			for (int i = 0; i < 4; i++)
 			{
 				auto ast = Asteroid::Spawn(mGame);
 				ast->SetPosition(deadAsteroid);
 				ast->SetScale(0.25f);
-			}
+		}
 		}
 	}
 }

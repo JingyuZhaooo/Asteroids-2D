@@ -86,6 +86,9 @@ bool Renderer::Init(int width, int height)
 void Renderer::RenderFrame()
 {
 	// TODO
+	Clear();
+	DrawComponents();
+	Present();
 }
 
 void Renderer::AddComponent(DrawComponentPtr component)
@@ -122,16 +125,25 @@ void Renderer::DrawVertexArray(VertexArrayPtr vertArray)
 void Renderer::Clear()
 {
 	// TODO
+	glClear(GL_COLOR_BUFFER_BIT);
 }
 
 void Renderer::DrawComponents()
 {
 	// TODO
+	for (auto& comp : mDrawComponents)
+	{
+		if (comp->IsVisible())
+		{
+			comp->Draw(*this);
+		}
+	}
 }
 
 void Renderer::Present()
 {
 	// TODO
+	SDL_GL_SwapWindow(mWindow);
 }
 
 bool Renderer::InitFrameBuffer()
@@ -169,6 +181,21 @@ bool Renderer::InitShaders()
 bool Renderer::InitSpriteVerts()
 {
 	// TODO
+	//Create the vertex array for sprites
+	Vertex verts[] =
+	{ 
+		Vertex(-0.5f, 0.5f, 0.0f, 0.0f, 0.0f), // top left 
+		Vertex(0.5f, 0.5f, 0.0f, 1.0f, 0.0f), // top right 
+		Vertex(0.5f, -0.5f, 0.0f, 1.0f, 1.0f), // bottom right 
+		Vertex(-0.5f, -0.5f, 0.0f, 0.0f, 1.0f), // bottom left 
+	};
+
+	GLuint indices[] = 
+	{ 
+		0, 1, 2, // <top left, top right, bottom right> 
+		2, 3, 0, // <bottom right, bottom left, top left> 
+	};
+	mSpriteVerts = VertexArray::Create(verts, 4, indices, 6);
 
 	return true;
 }
