@@ -17,6 +17,7 @@ Game::Game()
 
 Game::~Game()
 {
+	myShip = nullptr;
 	mAssetCache.Clear();
 	mWorld.RemoveAllActors();
 	Mix_CloseAudio();
@@ -51,6 +52,8 @@ bool Game::Init()
 
 	// Start frame timer
 	mTimer.Start();
+
+	AddInputMappings();
 
 	// Run any code at game start
 	StartGame();
@@ -130,50 +133,18 @@ void Game::ProcessInput()
 
 void Game::HandleKeyPressed(int key)
 {
-	switch (key)
-	{
-		
-	case 119: 
-		myShip->GetMoveComponent()->AddToLinearAxis(1.0f);
-		break;
-	case 115:
-		myShip->GetMoveComponent()->AddToLinearAxis(-1.0f);
-		break;
-	case 97:
-		myShip->GetMoveComponent()->AddToAngularAxis(1.0f);
-		break;
-	case 100:
-		myShip->GetMoveComponent()->AddToAngularAxis(-1.0f);
-		break;
-	case SDLK_SPACE:
-		myShip->FireMissle();
-		break;
-	}
+	mInput.HandleKeyPressed(key);
 }
 
 void Game::HandleKeyReleased(int key)
 {
-	switch (key)
-	{
-
-	case 119:
-		myShip->GetMoveComponent()->AddToLinearAxis(-1.0f);
-		break;
-	case 115:
-		myShip->GetMoveComponent()->AddToLinearAxis(1.0f);
-		break;
-	case 97:
-		myShip->GetMoveComponent()->AddToAngularAxis(-1.0f);
-		break;
-	case 100:
-		myShip->GetMoveComponent()->AddToAngularAxis(1.0f);
-		break;
-	}
+	mInput.HandleKeyReleased(key);
 }
 
 void Game::Tick()
 {
 	float deltaTime = mTimer.GetFrameTime(0.016666f);
+	mGameTimer.Tick(deltaTime);
 	mWorld.Tick(deltaTime);
 	mPhysWorld.Tick(deltaTime);
 }
@@ -181,4 +152,13 @@ void Game::Tick()
 void Game::GenerateOutput()
 {
 	mRenderer.RenderFrame();
+}
+
+void Game::AddInputMappings()
+{
+	mInput.AddActionMapping("Quit", SDLK_ESCAPE);
+	mInput.AddActionMapping("Fire", SDLK_SPACE);
+	mInput.BindAction("Quit", IE_Released, this, &Game::Quit);
+	mInput.AddAxisMapping("Move", 'w', 's'); 
+	mInput.AddAxisMapping("Rotate", 'a', 'd');
 }

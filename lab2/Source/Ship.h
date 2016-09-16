@@ -4,6 +4,8 @@
 #include "SpriteComponent.h"
 #include "AudioComponent.h"
 #include "Sound.h"
+#include "InputComponent.h"
+#include "SphereCollision.h"
 
 class Ship : public Actor
 {
@@ -13,8 +15,11 @@ public:
 	MoveComponentPtr GetMoveComponent() { return moveShip; };
 	void Tick(float deltaTime) override;
 	void FireMissle();
+	void BeginPlay() override;
+	void BeginTouch(Actor& other) override;
+	void OnRespawnShip();
 private:
-	MoveComponentPtr moveShip;
+	InputComponentPtr moveShip;
 	TexturePtr noThrust;
 	TexturePtr withThrust;
 	SpriteComponentPtr texture;
@@ -22,5 +27,7 @@ private:
 	SoundPtr fireSound;
 	SoundPtr engineSound;
 	SoundCue soundCue;
+	SoundPtr mShipDie;
+	AudioComponentPtr mShipDieSound;
 };
 DECL_PTR(Ship);

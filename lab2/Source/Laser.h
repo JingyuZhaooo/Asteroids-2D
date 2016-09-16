@@ -12,10 +12,11 @@ public:
 	MoveComponentPtr getLaser();
 	void Tick(float deltatime) override;
 	void BeginTouch(Actor& other) override;
+	void OnDieTimer();
+	void BeginPlay() override;
 private:
 	SpriteComponentPtr LaserTexture;
 	MoveComponentPtr moveLaser;
-	float lifeSpan;
 	SoundPtr asteroidDie;
 	AudioComponentPtr collisionSound;
 	

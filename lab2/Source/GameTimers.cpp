@@ -9,7 +9,44 @@ GameTimerManager::GameTimerManager()
 
 void GameTimerManager::Tick(float deltaTime)
 {
-	// TODO
+	mAreTimersTicking = true;
+	for (auto &i : mActiveTimers)
+	{
+		if (i.second.mStatus == Active)
+		{
+			i.second.mRemainingTime -= deltaTime;
+		}
+		if (i.second.mRemainingTime <= 0.0f)
+		{
+			i.second.mDelegate->Execute();
+			if (i.second.mIsLooping == true)
+			{
+				i.second.mRemainingTime = i.second.mDuration;
+			}
+			else
+			{
+				i.second.mStatus = Cleared;
+				mClearedTimers.push_back(i.second.mHandle);
+			}
+		}
+	}
+	for (auto &i : mClearedTimers)
+	{
+		auto iter = mActiveTimers.find(i);
+		if (iter != mActiveTimers.end())
+		{
+			RemoveFromObjMap(iter->second.mObj, iter->second.mHandle);
+			mActiveTimers.erase(iter);
+		}
+	}
+	mClearedTimers.clear();
+	for (auto &i : mPendingTimers)
+	{
+		i.second.mStatus = Active;
+		mActiveTimers.emplace(i.first, i.second);
+	}
+	mPendingTimers.clear();
+	mAreTimersTicking = false;
 }
 
 void GameTimerManager::ClearTimer(const TimerHandle& handle)
@@ -124,7 +161,27 @@ void GameTimerManager::ClearAllTimers(Object* obj)
 
 void GameTimerManager::SetTimerInternal(TimerHandle& outHandle, Object* obj, TimerDelegatePtr delegate, float duration, bool looping)
 {
-	// TODO
+	outHandle.mValue = mNextTimerId;
+	TimerInfo timeInfo;
+	timeInfo.mObj = obj;
+	timeInfo.mDelegate = delegate;
+	timeInfo.mDuration = duration;
+	timeInfo.mRemainingTime = duration;
+	timeInfo.mIsLooping = looping;
+	timeInfo.mHandle = outHandle;
+	mNextTimerId++;
+	if (mAreTimersTicking == false)
+	{
+		timeInfo.mStatus = Pending;
+		mPendingTimers.emplace(outHandle, timeInfo);
+		
+	}
+	else
+	{
+		timeInfo.mStatus = Active;
+		mActiveTimers.emplace(outHandle, timeInfo);
+	}
+	AddToObjMap(obj, outHandle);
 }
 
 void GameTimerManager::AddToObjMap(Object* obj, const TimerHandle& handle)

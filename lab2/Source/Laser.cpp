@@ -18,7 +18,7 @@ Laser::Laser(Game& mGame) : Actor(mGame) // Initializer list
 	moveLaser = MoveComponent::Create(*this, Component::PreTick);
 	moveLaser->SetLinearSpeed(600.0f);
 	moveLaser->SetLinearAxis(1.0f);
-	lifeSpan = 1.0f;
+	
 
 	auto coll = SphereCollision::Create(*this); 
 	coll->RadiusFromTexture(tex);
@@ -31,11 +31,12 @@ MoveComponentPtr Laser::getLaser()
 }
 void Laser::Tick(float deltaTime)
 {
-	lifeSpan -= deltaTime;
-	if (lifeSpan <= 0.0f)
-	{
-		SetIsAlive(false);
-	}
+
+}
+
+void Laser::OnDieTimer()
+{
+	SetIsAlive(false);
 }
 
 void Laser::BeginTouch(Actor& other)
@@ -58,4 +59,9 @@ void Laser::BeginTouch(Actor& other)
 		}
 		}
 	}
+}
+void Laser::BeginPlay()
+{
+	TimerHandle handle;
+	mGame.GetGameTimers().SetTimer(handle, this, &Laser::OnDieTimer, 1.0f);
 }

@@ -1,14 +1,16 @@
 #include "Actor.h"
 #include "Game.h"
+#include "GameTimers.h"
 
 IMPL_ACTOR(Actor, Object);
 
 Actor::Actor(Game& game)
 	:mGame(game)
-	,mParent(nullptr)
-	,mScale(1.0f)
-	,mRotation(0.0f)
-	,mIsAlive(true)
+	, mParent(nullptr)
+	, mScale(1.0f)
+	, mRotation(0.0f)
+	, mIsAlive(true)
+	, mIsPaused(false)
 {
 
 }
@@ -17,6 +19,7 @@ Actor::~Actor()
 {
 	RemoveAllChildren();
 	RemoveAllComponents();
+	mGame.GetGameTimers().ClearAllTimers(this);
 }
 
 void Actor::BeginPlay()
@@ -117,6 +120,10 @@ void Actor::ComputeWorldTransform()
 
 void Actor::TickInternal(float deltaTime)
 {
+	if (mIsPaused == true)
+	{
+		return;
+	}
 	for (auto &i : mPreTickComponents)
 	{
 		i->Tick(deltaTime);
