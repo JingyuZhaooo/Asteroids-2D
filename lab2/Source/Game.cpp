@@ -101,7 +101,7 @@ void Game::StartGame()
 	myShip = Ship::Spawn(*this);
 	myShip->SetPosition(Vector3(0.0f, 0.0f, 0.0f));
 	myShip->SetRotation(Math::PiOver2);
-	myShip->SetScale(0.7f);
+	myShip->SetScale(0.5f);
 }
 
 void Game::ProcessInput()

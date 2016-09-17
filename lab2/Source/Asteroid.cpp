@@ -4,22 +4,23 @@
 #include "Random.h"
 #include "MoveComponent.h"
 #include "SphereCollision.h"
+#include "MeshComponent.h"
 
 IMPL_ACTOR(Asteroid, Actor);
 Asteroid::Asteroid(Game& mGame) : Actor(mGame) // Initializer list
 {
-	auto asteroid = SpriteComponent::Create(*this);
+	MeshComponentPtr asteroid = MeshComponent::Create(*this);
 	AssetCache& mAssetCache = mGame.GetAssetCache();
-	auto texture = mAssetCache.Load<Texture>("Textures/Asteroid.png");
-	asteroid->SetTexture(texture);
+	MeshPtr texture = mAssetCache.Load<Mesh>("Meshes/AsteroidMesh.itpmesh2");
+	asteroid->SetMesh(texture);
 
 	SetRotation(Random::GetFloatRange(0.0f, Math::TwoPi));
 
 	auto move = MoveComponent::Create(*this, Component::PreTick);
 	move->SetLinearSpeed(150.0f);
 	move->SetLinearAxis(1.0f);
-
+	asteroid->SetIsVisible(true);
 	auto coll = SphereCollision::Create(*this);
-	coll->RadiusFromTexture(texture);
+	coll->RadiusFromMesh(texture);
 	coll->SetScale(0.9f);
 }

@@ -3,7 +3,15 @@
 
 IMPL_COMPONENT(MeshComponent, DrawComponent);
 
-void DrawComponent::Draw(class Renderer& render)
+MeshComponent::MeshComponent(Actor& owner):DrawComponent(owner)
 {
 
+}
+void MeshComponent::Draw(class Renderer& render)
+{
+	if (mMesh != nullptr)
+	{
+		
+		render.DrawBasicMesh(mMesh->GetVertexArray(), mMesh->GetTexture(0), mOwner.GetWorldTransform());
+	}
 }

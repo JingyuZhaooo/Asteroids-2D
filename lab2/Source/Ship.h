@@ -6,6 +6,7 @@
 #include "Sound.h"
 #include "InputComponent.h"
 #include "SphereCollision.h"
+#include "MeshComponent.h"
 
 class Ship : public Actor
 {
@@ -20,9 +21,8 @@ public:
 	void OnRespawnShip();
 private:
 	InputComponentPtr moveShip;
-	TexturePtr noThrust;
-	TexturePtr withThrust;
-	SpriteComponentPtr texture;
+	MeshPtr mMesh;
+	MeshComponentPtr texture;
 	AudioComponentPtr audioComPtr;
 	SoundPtr fireSound;
 	SoundPtr engineSound;

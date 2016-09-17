@@ -118,6 +118,9 @@
     <ClCompile Include="Source\InputComponent.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Source\MeshComponent.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\Texture.h">
@@ -211,6 +214,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Source\InputComponent.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\MeshComponent.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

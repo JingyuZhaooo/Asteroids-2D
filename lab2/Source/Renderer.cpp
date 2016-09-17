@@ -1,5 +1,6 @@
 #include "Renderer.h"
 #include "Game.h"
+#include "SpriteComponent.h"
 
 Renderer::Renderer(Game& game)
 	:mGame(game)
@@ -93,15 +94,33 @@ void Renderer::RenderFrame()
 
 void Renderer::AddComponent(DrawComponentPtr component)
 {
-	mDrawComponents.emplace(component);
+	if (IsA<SpriteComponent>(component))
+	{
+		mComponents2D.emplace(component);
+	}
+	else
+	{
+		mDrawComponents.emplace(component);
+	}
 }
 
 void Renderer::RemoveComponent(DrawComponentPtr component)
 {
-	auto iter = mDrawComponents.find(component);
-	if (iter != mDrawComponents.end())
+	if (IsA<SpriteComponent>(component))
 	{
-		mDrawComponents.erase(component);
+		auto iter = mComponents2D.find(component);
+		if (iter != mComponents2D.end())
+		{
+			mComponents2D.erase(component);
+		}
+	}
+	else
+	{
+		auto iter = mDrawComponents.find(component);
+		if (iter != mDrawComponents.end())
+		{
+			mDrawComponents.erase(component);
+		}
 	}
 }
 
@@ -124,18 +143,29 @@ void Renderer::DrawVertexArray(VertexArrayPtr vertArray)
 
 void Renderer::Clear()
 {
-	// TODO
-	glClear(GL_COLOR_BUFFER_BIT);
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 }
 
 void Renderer::DrawComponents()
 {
-	// TODO
-	for (auto& comp : mDrawComponents)
+	glEnable(GL_DEPTH_TEST);
+	glDisable(GL_BLEND);
+	for (auto comp : mDrawComponents)
 	{
 		if (comp->IsVisible())
 		{
 			comp->Draw(*this);
+		}
+	}
+	glDisable(GL_DEPTH_TEST); 
+	glEnable(GL_BLEND); 
+	glBlendEquationSeparate(GL_FUNC_ADD, GL_FUNC_ADD); 
+	glBlendFuncSeparate(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA, GL_ONE, GL_ZERO);
+	for (auto iter : mComponents2D)
+	{
+		if (iter->IsVisible())
+		{
+			iter->Draw(*this);
 		}
 	}
 }
@@ -159,6 +189,13 @@ bool Renderer::InitFrameBuffer()
 
 bool Renderer::InitShaders()
 {
+	mBasicMeshShader = mGame.GetAssetCache().Load<Shader>("Shaders/BasicMesh");
+	if (!mBasicMeshShader)
+	{
+		SDL_Log("Failed to load Mesh shader.");
+		return false;
+	}
+	mBasicMeshShader->SetActive();
 	// Load the sprite shader program
 	mSpriteShader = mGame.GetAssetCache().Load<Shader>("Shaders/Sprite");
 	if (!mSpriteShader)
@@ -173,8 +210,11 @@ bool Renderer::InitShaders()
 	// This is just an orthographic since the camera points at the center
 	mSpriteViewProj = Matrix4::CreateOrtho(static_cast<float>(mWidth),
 		static_cast<float>(mHeight), 1000.0f, -1000.0f);
-	mSpriteShader->BindViewProjection(mSpriteViewProj);
 
+	mSpriteShader->SetActive();
+	mSpriteShader->BindViewProjection(mSpriteViewProj);
+	mViewProj = mSpriteViewProj;
+	mBasicMeshShader->BindViewProjection(mViewProj);
 	return true;
 }
 
@@ -198,4 +238,18 @@ bool Renderer::InitSpriteVerts()
 	mSpriteVerts = VertexArray::Create(verts, 4, indices, 6);
 
 	return true;
+}
+
+void Renderer::DrawBasicMesh(VertexArrayPtr vertArray, TexturePtr texture, const Matrix4& worldTransform)
+{
+	// We want to draw with the basic mesh shader 
+	mBasicMeshShader->SetActive(); 
+	// Save the value of the world transform we want to use 
+	mBasicMeshShader->BindWorldTransform(worldTransform); 
+	// Send the shader data (matrices, in this case) to the GPU 
+	mBasicMeshShader->UploadUniformsToGPU(); 
+	// We need to specify which texture is active 
+	mBasicMeshShader->BindTexture("uTexture", texture, 0); 
+	// Now draw the triangles! 
+	DrawVertexArray(vertArray);
 }

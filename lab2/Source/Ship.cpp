@@ -11,7 +11,7 @@
 IMPL_ACTOR(Ship, Actor);
 Ship::Ship(Game& mGame) : Actor(mGame) // Initializer list
 {
-	texture = SpriteComponent::Create(*this);
+	texture = MeshComponent::Create(*this);
 	AssetCache& mAssetCache = mGame.GetAssetCache();
 
 	audioComPtr = AudioComponent::Create(*this);
@@ -20,19 +20,17 @@ Ship::Ship(Game& mGame) : Actor(mGame) // Initializer list
 	mShipDie = mAssetCache.Load<Sound>("Sounds/ShipDie.wav");
 	soundCue = audioComPtr->PlaySound(engineSound, 1);
 	soundCue.Pause();
-
-	noThrust = mAssetCache.Load<Texture>("Textures/Spaceship.png");
-	withThrust = mAssetCache.Load<Texture>("Textures/SpaceshipWithThrust.png");
-	texture->SetTexture(noThrust);
-
+	mMesh = mAssetCache.Load<Mesh>("Meshes/PlayerShip.itpmesh2");
+	texture->SetMesh(mMesh);
 	SetRotation(Random::GetFloatRange(0.0f, Math::TwoPi));
 
 	moveShip = InputComponent::Create(*this, Component::PreTick);
 	moveShip->SetLinearSpeed(400.0f);
 	moveShip->SetAngularSpeed(Math::TwoPi);
-	
+	this->SetScale(0.5f);
+
 	auto coll = SphereCollision::Create(*this);
-	coll->RadiusFromTexture(noThrust);
+	coll->RadiusFromMesh(mMesh);
 	coll->SetScale(0.75f);
 }
 void Ship::Tick(float deltaTime)
@@ -40,12 +38,10 @@ void Ship::Tick(float deltaTime)
 	Super::Tick(deltaTime);
 	if (moveShip->GetLinearAxis() == 0)
 	{
-		texture->SetTexture(noThrust);
 		soundCue.Pause();
 	}
 	else
 	{
-		texture->SetTexture(withThrust);
 		soundCue.Resume();
 	}
 	return;
@@ -66,8 +62,6 @@ void Ship::BeginPlay()
 	mGame.GetInput().BindAction("Fire", IE_Pressed, this, &Ship::FireMissle);
 	moveShip->BindLinearAxis("Move");
 	moveShip->BindAngularAxis("Rotate");
-	
-
 }
 
 void Ship::BeginTouch(Actor& other)

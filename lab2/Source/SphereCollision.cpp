@@ -53,3 +53,8 @@ bool SphereCollision::IntersectsSphere(SphereCollisionPtr other)
 	return (distSq <= sumRadiiSq);
 	return false;
 }
+
+void SphereCollision::RadiusFromMesh(MeshPtr mesh)
+{
+	mOriginalRadius = mesh->GetRadius();
+}
