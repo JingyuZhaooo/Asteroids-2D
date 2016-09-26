@@ -5,6 +5,7 @@
 #include "CollisionComponent.h"
 #include "Texture.h"
 #include "Math.h"
+#include "Mesh.h"
 
 class SphereCollision : public CollisionComponent
 {
@@ -21,6 +22,7 @@ public:
 
 	float GetScale() const { return mScale; }
 	void SetScale(float scale) { mScale = scale; }
+	void RadiusFromMesh(MeshPtr mesh);
 private:
 	bool IntersectsSphere(std::shared_ptr<SphereCollision> other);
 

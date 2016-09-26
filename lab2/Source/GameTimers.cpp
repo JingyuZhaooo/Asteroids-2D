@@ -172,14 +172,13 @@ void GameTimerManager::SetTimerInternal(TimerHandle& outHandle, Object* obj, Tim
 	mNextTimerId++;
 	if (mAreTimersTicking == false)
 	{
-		timeInfo.mStatus = Pending;
-		mPendingTimers.emplace(outHandle, timeInfo);
-		
+		timeInfo.mStatus = Active;
+		mActiveTimers.emplace(outHandle, timeInfo);
 	}
 	else
 	{
-		timeInfo.mStatus = Active;
-		mActiveTimers.emplace(outHandle, timeInfo);
+		timeInfo.mStatus = Pending;
+		mPendingTimers.emplace(outHandle, timeInfo);
 	}
 	AddToObjMap(obj, outHandle);
 }

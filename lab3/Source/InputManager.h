@@ -2,6 +2,7 @@
 #include <unordered_map>
 #include <string>
 #include "Delegate.h"
+#include "Math.h"
 
 // Used to bind an action to pressed or released
 enum InputEvent
@@ -58,6 +59,7 @@ public:
 		AxisDelegatePtr delegate = std::make_shared<Delegate<T, float>>(obj, func);
 		BindAxisInternal(name, delegate);
 	}
+	Vector2 GetMousePos();
 private:
 	void BindActionInternal(const std::string& name, InputEvent event, 
 		ActionDelegatePtr delegate);

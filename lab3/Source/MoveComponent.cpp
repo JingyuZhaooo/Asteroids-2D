@@ -17,7 +17,22 @@ MoveComponent::MoveComponent(Actor& owner)
 
 void MoveComponent::Tick(float deltaTime)
 {
-	// TODO
+	if (!Math::IsZero(mAngularAxis))
+	{
+		float rot = mOwner.GetRotation();
+		rot += mAngularSpeed * mAngularAxis * deltaTime;
+		mOwner.SetRotation(rot);
+	}
+	if (!Math::IsZero(mLinearAxis))
+	{ 
+	// Update velocity based on current forward
+	auto mDirection = mOwner.GetForward();
+	mVelocity = mDirection * mLinearSpeed * mLinearAxis;
+	// Update position of owner based on velocity
+	Vector3 oldPosition = mOwner.GetPosition();
+	Vector3 newPosition = oldPosition + mVelocity * deltaTime;
+	mOwner.SetPosition(newPosition);
+	}
 }
 
 void MoveComponent::AddToLinearAxis(float delta)

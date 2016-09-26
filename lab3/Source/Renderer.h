@@ -29,6 +29,7 @@ public:
 
 	void DrawSprite(TexturePtr texture, const Matrix4& worldTransform);
 	void DrawVertexArray(VertexArrayPtr vertArray);
+	void DrawBasicMesh(VertexArrayPtr vertArray, TexturePtr texture, const Matrix4& worldTransform);
 private:
 	void Clear();
 	void DrawComponents();
@@ -51,6 +52,9 @@ private:
 	VertexArrayPtr mSpriteVerts;
 
 	class Game& mGame;
+	std::unordered_set<DrawComponentPtr> mComponents2D;
+	Matrix4 mViewProj;
+	ShaderPtr mBasicMeshShader;
 
 	int mWidth;
 	int mHeight;

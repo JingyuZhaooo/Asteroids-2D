@@ -20,12 +20,17 @@ void SphereCollision::Tick(float deltaTime)
 	// Scale the radius by the world transform scale
 	// (We can assume the scale is uniform, because
 	// actors don't allow non-uniform scaling)
-	// TODO
+	Vector3 scaleVec = mOwner.GetWorldTransform().GetScale();
+	mActualRadius = mOriginalRadius * mScale * scaleVec.x;
+	mCenter = mOwner.GetWorldTransform().GetTranslation();
 }
 
 bool SphereCollision::Intersects(CollisionComponentPtr other)
 {
-	// TODO
+	if (IsA<SphereCollision>(other)) 
+	{ 
+		return IntersectsSphere(Cast<SphereCollision>(other)); 
+	}
 	return false;
 }
 
@@ -37,6 +42,19 @@ void SphereCollision::RadiusFromTexture(TexturePtr texture)
 
 bool SphereCollision::IntersectsSphere(SphereCollisionPtr other)
 {
-	// TODO
+	// Calculate the difference vector between the centers
+	Vector3 diff = other->mCenter - mCenter;
+	// Calculate the distance squared
+	float distSq = diff.LengthSq();
+	// Calculate the sum of radii squared
+	float sumRadiiSq = (mActualRadius + other->mActualRadius) *
+		(mActualRadius + other->mActualRadius);
+	// Did they collide?
+	return (distSq <= sumRadiiSq);
 	return false;
+}
+
+void SphereCollision::RadiusFromMesh(MeshPtr mesh)
+{
+	mOriginalRadius = mesh->GetRadius();
 }

@@ -48,3 +48,43 @@ void World::RemoveAllActors()
 	}
 	mActors.clear();
 }
+
+void World::RemoveEnemy(Enemy* enemy)
+{
+	mEnemies.erase(enemy);
+}
+
+void World::AddEnemy(Enemy* enemy)
+{
+	mEnemies.insert(enemy);
+}
+
+std::vector<Enemy*> World::GetEnemiesInRange(Vector3 position, float radius)
+{
+	std::vector<Enemy*> enemiesInRange;
+	for (auto enemy : mEnemies)
+	{
+		float length = (position - enemy->GetWorldTransform().GetTranslation()).Length(); // Get the distance vector3 and then calculate the norm of the vector3
+		if (length <= radius)									// if the norm is less than atteack range, then add it to vector
+		{
+			enemiesInRange.push_back(enemy);
+		}
+	}
+	return enemiesInRange;
+}
+
+Enemy* World::GetClosestEnemy(Vector3 position, float radius)
+{
+	Enemy* closesetEnemy = nullptr;
+	float shortestRange = 1000; // initialize it to 1000 so we can narrow down later
+	for (auto enemy : mEnemies)
+	{
+		float length = (position - enemy->GetWorldTransform().GetTranslation()).Length();
+		if (length < shortestRange && length <= radius)
+		{
+			closesetEnemy = enemy;
+			shortestRange = length;
+		}
+	}
+	return closesetEnemy;
+}

@@ -20,5 +20,4 @@ public:
 private:
 	bool mIsVisible;
 };
-
 DECL_PTR(DrawComponent);

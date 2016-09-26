@@ -7,6 +7,7 @@
 #include <memory>
 #include <vector>
 #include "Actor.h"
+#include "Enemy.h"
 
 class World
 {
@@ -19,6 +20,11 @@ public:
 	void Tick(float deltaTime);
 	
 	void RemoveAllActors();
+	void RemoveEnemy(Enemy* enemy);
+	void AddEnemy(Enemy* enemy);
+	std::vector<Enemy*> GetEnemiesInRange(Vector3 position, float radius);
+	Enemy* GetClosestEnemy(Vector3 position, float radius);
 private:
 	std::vector<ActorPtr> mActors;
+	std::unordered_set<Enemy*> mEnemies;
 };
