@@ -9,9 +9,10 @@ class CannonTower : public Tower
 public:
 	CannonTower(Game& mGame);
 	void FireCannon();
+	TowerPtr GetCannonChild() { return mCannonChild; };
 private:
-	MeshComponentPtr mMeshComp;
 	SoundPtr mFireSound;
 	AudioComponentPtr mAudioComp;
+	TowerPtr mCannonChild;
 };
 DECL_PTR(CannonTower);

@@ -154,16 +154,15 @@ void GameMode::SpawnCanon()
 {
 	if (mSelectedTile != nullptr && mSelectedTile->GetTower() == nullptr) // selected tile does not have a tower built
 	{
-		auto Tower = Tower::SpawnAttached(*mSelectedTile); // create a cannonTower, inherit from the selected Tile
+		CannonTowerPtr Tower = CannonTower::SpawnAttached(*mSelectedTile); // create a cannonTower, inherit from the selected Tile
 		Tower->SetRotation(0.0f);
 		Tower->SetScale(1.0f);
 		
-		CannonTowerPtr cannonChild = CannonTower::SpawnAttached(*Tower);	// make an actor that encapsulates the cannon mesh
-		//cannonChild->SetRotation(Math::PiOver2);
-		mSelectedTile->SetTower(cannonChild);
+		//CannonTowerPtr cannonChild = CannonTower::SpawnAttached(*Tower);	// make an actor that encapsulates the cannon mesh
+
+		mSelectedTile->SetTower(Tower);
 		
-		
-		cannonChild->FireCannon();
+		Tower->FireCannon();
 	}
 	else	// if the tower is not successfully built, play the error sound
 	{
@@ -182,7 +181,6 @@ void GameMode::SpawnFrost()
 		Tower->SetScale(1.0f);
 
 		FrostTowerPtr frostChild = FrostTower::SpawnAttached(*Tower);	// make an actor that encapsulates the cannon mesh
-		//frostChild->SetRotation(Math::PiOver2);
 		mSelectedTile->SetTower(frostChild);
 		frostChild->Freeze();
 	}

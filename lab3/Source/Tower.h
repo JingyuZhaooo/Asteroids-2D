@@ -8,6 +8,7 @@ class Tower : public Actor
 	DECL_ACTOR(Tower, Actor);
 public:
 	Tower(Game& mGame);
+	void LoadCannonMesh();
 private:
 	MeshComponentPtr mMeshComp;
 	SoundPtr mTowerBuiltSound;

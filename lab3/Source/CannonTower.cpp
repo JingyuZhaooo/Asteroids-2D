@@ -6,11 +6,10 @@ IMPL_ACTOR(CannonTower, Tower);
 
 CannonTower::CannonTower(Game& mGame) : Tower(mGame)
 {
-	mMeshComp = MeshComponent::Create(*this);
 	AssetCache& mAssetCache = mGame.GetAssetCache();
-	MeshPtr mMesh = mAssetCache.Load<Mesh>("Meshes/Cannon.itpmesh2");
-	mMeshComp->SetMesh(mMesh);
 	mFireSound = mAssetCache.Load<Sound>("Sounds/CannonFire.wav");
+	mCannonChild = Tower::SpawnAttached(*this);	// make an actor that encapsulates the cannon mesh
+	mCannonChild->LoadCannonMesh();
 }
 
 void CannonTower::FireCannon()
@@ -20,13 +19,13 @@ void CannonTower::FireCannon()
 	{
 		Vector3 aim = target->GetWorldTransform().GetTranslation() - mParent->GetWorldTransform().GetTranslation(); //Make a vector from the cannon to the target
 		aim.Normalize();												//normalize the vector
-		auto angle = atan(Dot(aim, Vector3::UnitX)) - Math::PiOver2; // ???
-		auto crossProduct = Cross(aim, Vector3::UnitX);
+		auto angle = acos(Dot(aim, Vector3::UnitX)); 
+		auto crossProduct = Cross(Vector3::UnitX, aim);
 		if (crossProduct.z < 0)
 		{
 			angle *= -1;
 		}
-		this->SetRotation(angle);
+		this->GetCannonChild()->SetRotation(angle);
 		
 		CannonballPtr cannonBall = Cannonball::Spawn(mGame);
 		cannonBall->SetPosition(mParent->GetWorldTransform().GetTranslation());

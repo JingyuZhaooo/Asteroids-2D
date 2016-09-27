@@ -12,3 +12,10 @@ Tower::Tower(Game& mGame) : Actor(mGame)
 	mTowerBuiltSound = mAssetCache.Load<Sound>("Sounds/Building.wav");
 	mAudioComp->PlaySound(mTowerBuiltSound);
 }
+
+void Tower::LoadCannonMesh()
+{
+	AssetCache& mAssetCache = mGame.GetAssetCache();
+	MeshPtr mMesh = mAssetCache.Load<Mesh>("Meshes/Cannon.itpmesh2");
+	mMeshComp->SetMesh(mMesh);
+}
