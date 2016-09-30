@@ -11,6 +11,7 @@
 #include "InputManager.h"
 #include "GameTimers.h"
 #include "GameMode.h"
+#include "NavWorld.h"
 
 
 class Game
@@ -30,6 +31,7 @@ public:
 	void AddInputMappings();
 	GameTimerManager& GetGameTimers() { return mGameTimer; }
 	GameModePtr GetGameMode() { return mGameModePtr; };
+	NavWorld& GetNavWorld() { return mNavWorld; };
 private:
 	void StartGame();
 	
@@ -50,4 +52,5 @@ private:
 	InputManager mInput;
 	GameTimerManager mGameTimer;
 	GameModePtr mGameModePtr;
+	NavWorld mNavWorld;
 };

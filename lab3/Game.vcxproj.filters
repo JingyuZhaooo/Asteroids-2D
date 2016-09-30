@@ -125,6 +125,12 @@
     <ClInclude Include="Source\Cannonball.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Source\PathNode.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\NavWorld.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\Font.cpp">
@@ -236,6 +242,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Source\Cannonball.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\NavWorld.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

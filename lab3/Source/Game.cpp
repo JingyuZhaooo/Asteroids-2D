@@ -79,7 +79,7 @@ void Game::Quit()
 void Game::StartGame()
 {
 	mGameModePtr = GameMode::Spawn(*this);
-	mGameModePtr->SpawnEnemy();
+	mGameModePtr->SpawnNextEnemy();
 
 }
 

@@ -2,6 +2,7 @@
 #include "Actor.h"
 #include "Tile.h"
 #include "AudioComponent.h"
+#include "NavWorld.h"
 
 class GameMode : public Actor
 {
@@ -25,7 +26,7 @@ public:
 	void SpawnNextEnemy();
 	void SpawnCanon();
 	void SpawnFrost();
-
+	void InitPathNodes();
 private:
     // Create the tiles
 	void CreateTiles();

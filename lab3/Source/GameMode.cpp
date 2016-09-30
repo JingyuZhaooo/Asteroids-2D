@@ -23,12 +23,12 @@ GameMode::GameMode(Game& game)
 void GameMode::BeginPlay()
 {
 	Super::BeginPlay();
-
 	CreateTiles();
-
+	InitPathNodes();
 	mGame.GetInput().BindAction("Select", IE_Pressed, this, &GameMode::HandleSelect);
 	mGame.GetInput().BindAction("Build CannonTower", IE_Pressed, this, &GameMode::SpawnCanon);
 	mGame.GetInput().BindAction("Build FrostTower", IE_Pressed, this, &GameMode::SpawnFrost);
+	mGame.GetNavWorld().TryFindPath();
 }
 
 void GameMode::EndPlay()
@@ -160,8 +160,10 @@ void GameMode::SpawnCanon()
 		
 		//CannonTowerPtr cannonChild = CannonTower::SpawnAttached(*Tower);	// make an actor that encapsulates the cannon mesh
 
+		//mGame.GetNavWorld().GetNode
+		mGame.GetNavWorld().TryFindPath();
 		mSelectedTile->SetTower(Tower);
-		
+
 		Tower->FireCannon();
 	}
 	else	// if the tower is not successfully built, play the error sound
@@ -182,6 +184,7 @@ void GameMode::SpawnFrost()
 
 		FrostTowerPtr frostChild = FrostTower::SpawnAttached(*Tower);	// make an actor that encapsulates the cannon mesh
 		mSelectedTile->SetTower(frostChild);
+		mGame.GetNavWorld().TryFindPath();
 		frostChild->Freeze();
 	}
 	else	// if the tower is not successfully built, play the error sound
@@ -189,5 +192,54 @@ void GameMode::SpawnFrost()
 		AssetCache& mAssetCache = mGame.GetAssetCache();
 		SoundPtr mErrorSound = mAssetCache.Load<Sound>("Sounds/ErrorSound.wav");
 		mAudioComp->PlaySound(mErrorSound);
+	}
+}
+
+void GameMode::InitPathNodes()
+{
+	// initialize the nodes first
+	for (int i = 0; i < 9; i++)
+	{
+		for (int j = 0; j < 18; j++)
+		{
+			std::vector<PathNode*> adjNodes;
+			PathNode tempNode 
+			{ 
+				adjNodes, 
+				mTiles[i][j],
+				mTiles[i][j]->GetGridPos(),
+				nullptr, 
+				0.0f, 
+				0.0f, 
+				0.0f, 
+				false 
+			};
+			mGame.GetNavWorld().GetNode(i,j) = tempNode;
+		}
+	}
+	// adding to the adjacency list
+	for (int i = 0; i < 9; i++)
+	{
+		for (int j = 0; j < 18; j++)
+		{
+			std::vector<PathNode*> adjNodes;
+			if (i - 1 >= 0) // not on the top edge
+			{
+				adjNodes.push_back(&mGame.GetNavWorld().GetNode(i - 1, j));
+			}
+			if (i + 1 < 9) // not on the botton edge
+			{
+				adjNodes.push_back(&mGame.GetNavWorld().GetNode(i + 1, j));
+			}
+			if (j - 1 >= 0) // not on the left edge
+			{
+				adjNodes.push_back(&mGame.GetNavWorld().GetNode(i, j - 1));
+			}
+			if (j + 1 < 18) // not on the right edge
+			{
+				adjNodes.push_back(&mGame.GetNavWorld().GetNode(i, j + 1));
+			}
+			mGame.GetNavWorld().GetNode(i, j).mAdjacent = adjNodes;
+		}
 	}
 }
