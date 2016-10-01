@@ -33,7 +33,9 @@ void CannonTower::FireCannon()
 		mAudioComp->PlaySound(mFireSound);
 
 	}
-	
-	TimerHandle CannonTimeHandle;
-	mGame.GetGameTimers().SetTimer(CannonTimeHandle, this, &CannonTower::FireCannon, 1.0f);
+	if (mGame.GetGameEnd() == false)
+	{
+		TimerHandle CannonTimeHandle;
+		mGame.GetGameTimers().SetTimer(CannonTimeHandle, this, &CannonTower::FireCannon, 1.0f);
+	}
 }

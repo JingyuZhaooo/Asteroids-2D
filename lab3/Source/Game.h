@@ -32,6 +32,8 @@ public:
 	GameTimerManager& GetGameTimers() { return mGameTimer; }
 	GameModePtr GetGameMode() { return mGameModePtr; };
 	NavWorld& GetNavWorld() { return mNavWorld; };
+	bool GetGameEnd() { return gameEnds; };
+	void SetGameEnd(bool end) { gameEnds = end; };
 private:
 	void StartGame();
 	
@@ -53,4 +55,5 @@ private:
 	GameTimerManager mGameTimer;
 	GameModePtr mGameModePtr;
 	NavWorld mNavWorld;
+	bool gameEnds;
 };

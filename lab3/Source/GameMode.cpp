@@ -128,33 +128,42 @@ void GameMode::CreateTiles()
 
 void GameMode::SpawnEnemy()
 {
-	EnemyPtr enemy = Enemy::Spawn(mGame);
-	enemy->SetPosition(GetSpawnPos()); // position of the middle tile of the leftmost column
-	enemy->SetRotation(0.0);
-	enemy->SetScale(1.0f);
-	mEnemyCount += 1;
-	SpawnNextEnemy();
+	if (mGame.GetGameEnd() == false)
+	{
+		EnemyPtr enemy = Enemy::Spawn(mGame);
+		enemy->SetPosition(GetSpawnPos()); // position of the middle tile of the leftmost column
+		enemy->SetRotation(0.0);
+		enemy->SetScale(1.0f);
+		mEnemyCount += 1;
+		SpawnNextEnemy();
+	}
 }
 
 void GameMode::SpawnNextEnemy()
 {
 	if (mEnemyCount == (mWaveCount * 5)) // summon the first enemy of a new wave
 	{
-		TimerHandle enemyTimeHandle;
 		mWaveCount += 1;
 		mEnemyCount = 0;
-		mGame.GetGameTimers().SetTimer(enemyTimeHandle, this, &GameMode::SpawnEnemy, 5.0f);
+		if (mGame.GetGameEnd() == false)
+		{
+			TimerHandle enemyTimeHandle;
+			mGame.GetGameTimers().SetTimer(enemyTimeHandle, this, &GameMode::SpawnEnemy, 5.0f);
+		}
 	}
 	else								// sommon the next enemy in the current wave
 	{
-		TimerHandle enemyTimeHandle;
-		mGame.GetGameTimers().SetTimer(enemyTimeHandle, this, &GameMode::SpawnEnemy, 1.0f);
+		if (mGame.GetGameEnd() == false)
+		{
+			TimerHandle enemyTimeHandle;
+			mGame.GetGameTimers().SetTimer(enemyTimeHandle, this, &GameMode::SpawnEnemy, 1.0f);
+		}
 	}
 }
 
 void GameMode::SpawnCanon()
 {
-	if (mSelectedTile != nullptr && mSelectedTile->GetTower() == nullptr) // selected tile does not have a tower built
+	if (mSelectedTile != nullptr && mSelectedTile->GetTower() == nullptr && mGame.GetGameEnd() == false) // selected tile does not have a tower built
 	{
 		if (mMoney >= 25)
 		{ 
@@ -204,7 +213,7 @@ void GameMode::SpawnCanon()
 
 void GameMode::SpawnFrost()
 {
-	if (mSelectedTile != nullptr && mSelectedTile->GetTower() == nullptr) // selected tile does not have a tower built
+	if (mSelectedTile != nullptr && mSelectedTile->GetTower() == nullptr && mGame.GetGameEnd() == false) // selected tile does not have a tower built
 	{
 		if (mMoney >= 35)
 		{

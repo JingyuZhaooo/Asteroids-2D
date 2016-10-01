@@ -20,7 +20,9 @@ void FrostTower::Freeze()
 		enemy->Slow();
 	}
 	mAudioComp->PlaySound(mFreezeSound);
-	TimerHandle enemyTimeHandle;
-	mGame.GetGameTimers().SetTimer(enemyTimeHandle, this, &FrostTower::Freeze, 2.0f);
-
+	if (mGame.GetGameEnd() == false)
+	{ 
+		TimerHandle enemyTimeHandle;
+		mGame.GetGameTimers().SetTimer(enemyTimeHandle, this, &FrostTower::Freeze, 2.0f);
+	}
 }

@@ -10,6 +10,7 @@ Game::Game()
 	:mRenderer(*this)
 	,mAssetCache(*this, "Assets/")
 	,mShouldQuit(false)
+	,gameEnds(false)
 {
 
 }

@@ -49,7 +49,8 @@ void Enemy::BeginTouch(Actor& other)
 		{
 			std::string text = "You Lost!";
 			mGame.GetGameMode()->GetHUD()->GetStatusMsg()->SetText(text, Color::LightPink);
-			mGame.GetGameMode()->GetHUD()->ShowMessage();
+			mGame.GetGameMode()->GetHUD()->GetStatusMsg()->SetIsVisible(true);
+			mGame.SetGameEnd(true);
 			for (auto i : mGame.GetWorld().GetAllEnemies())
 			{
 				i->GetMoveComp()->SetLinearAxis(0.0);
