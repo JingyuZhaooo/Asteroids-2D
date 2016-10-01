@@ -18,6 +18,7 @@ public:
 	void BeginTouch(Actor& other) override;
 	void Slow();
 	void Unslow();
+	MoveComponentPtr GetMoveComp() { return mMoveComp; };
 private:
 	MeshComponentPtr mMeshComp;
 	MoveComponentPtr mMoveComp;

@@ -4,6 +4,7 @@
 #include "Random.h"
 #include "SpriteComponent.h"
 #include <SDL/SDL_mixer.h>
+#include "FontComponent.h"
 
 Game::Game()
 	:mRenderer(*this)
@@ -19,6 +20,8 @@ Game::~Game()
 	mWorld.RemoveAllActors();
 	Mix_CloseAudio();
 	SDL_Quit();
+	mGameModePtr = nullptr; //does't solve the crash on exit
+	TTF_Quit();
 }
 
 bool Game::Init()
@@ -43,6 +46,7 @@ bool Game::Init()
 		return false;
 	}
 	
+	TTF_Init();
 
 	// Initialize RNG
 	Random::Init();

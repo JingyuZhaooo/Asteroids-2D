@@ -45,6 +45,21 @@ void Enemy::BeginTouch(Actor& other)
 	{
 		SetIsAlive(false);
 		mGame.GetGameMode()->ReduceHP();
+		if (mGame.GetGameMode()->GetHP() == 0)
+		{
+			std::string text = "You Lost!";
+			mGame.GetGameMode()->GetHUD()->GetStatusMsg()->SetText(text, Color::LightPink);
+			mGame.GetGameMode()->GetHUD()->ShowMessage();
+			for (auto i : mGame.GetWorld().GetAllEnemies())
+			{
+				i->GetMoveComp()->SetLinearAxis(0.0);
+			}
+		}
+		else
+		{
+			std::string text = "Base Health: " + std::to_string(mGame.GetGameMode()->GetHP());
+			mGame.GetGameMode()->GetHUD()->GetHitPoint()->SetText(text, Color::LightGreen);
+		}
 	}
 	if (IsAlive() == true && IsA<Cannonball>(other))
 	{
@@ -55,6 +70,8 @@ void Enemy::BeginTouch(Actor& other)
 			SetIsAlive(false);
 			mAudioComp->PlaySound(mDieSound);
 			mGame.GetGameMode()->AddMoney(10);
+			std::string text = "Money: $" + std::to_string(mGame.GetGameMode()->GetMoney());
+			mGame.GetGameMode()->GetHUD()->GetMoney()->SetText(text,Color::Yellow);
 		}
 	}
 }

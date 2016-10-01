@@ -5,7 +5,6 @@
 #include "CannonTower.h"
 #include "FrostTower.h"
 
-
 IMPL_ACTOR(GameMode, Actor);
 
 const int NUM_COLS = 18;
@@ -20,6 +19,7 @@ GameMode::GameMode(Game& game)
 	mWaveCount = 1;
 	mMoney = 50;
 	mHP = 10;
+	mHUD = HUD::Spawn(mGame);
 }
 
 void GameMode::BeginPlay()
@@ -164,24 +164,34 @@ void GameMode::SpawnCanon()
 			if(mGame.GetNavWorld().TryFindPath())	// if we cannot find a path, then building the tower is going to block the path
 			{
 				CannonTowerPtr Tower = CannonTower::SpawnAttached(*mSelectedTile); // create a cannonTower, inherit from the selected Tile
-				mMoney -= 25;
 				Tower->SetRotation(0.0f);
 				Tower->SetScale(1.0f);
 				mSelectedTile->SetTower(Tower);
 				Tower->FireCannon();
+				mGame.GetGameMode()->CostMoney(25);
+				std::string text = "Money: $" + std::to_string(mGame.GetGameMode()->GetMoney());
+				mGame.GetGameMode()->GetHUD()->GetMoney()->SetText(text, Color::Yellow);
 			}
 			else
 			{
 				AssetCache& mAssetCache = mGame.GetAssetCache();
 				SoundPtr mErrorSound = mAssetCache.Load<Sound>("Sounds/ErrorSound.wav");
 				mAudioComp->PlaySound(mErrorSound);
+				std::string text = "You Can't Block The Path!";
+				mGame.GetGameMode()->GetHUD()->GetStatusMsg()->SetText(text, Color::LightPink);
+				mGame.GetGameMode()->GetHUD()->ShowMessage();
 				mGame.GetNavWorld().GetNode(x, y).blocked = false;
 				mGame.GetNavWorld().TryFindPath();
 			}
 		}
 		else
 		{
-			//std::cout << " Not Enough Money!" << std::endl;
+			AssetCache& mAssetCache = mGame.GetAssetCache();
+			SoundPtr mErrorSound = mAssetCache.Load<Sound>("Sounds/ErrorSound.wav");
+			mAudioComp->PlaySound(mErrorSound);
+			std::string text = "Not Enough Money!";
+			mGame.GetGameMode()->GetHUD()->GetStatusMsg()->SetText(text, Color::LightPink);
+			mGame.GetGameMode()->GetHUD()->ShowMessage();
 		}
 	}
 	else	// if the tower is not successfully built, play the error sound
@@ -204,25 +214,35 @@ void GameMode::SpawnFrost()
 			if (mGame.GetNavWorld().TryFindPath())	// if we cannot find a path, then building the tower is going to block the path
 			{
 				auto Tower = Tower::SpawnAttached(*mSelectedTile); // create a cannonTower, inherit from the selected Tile
-				mMoney -= 35;
 				Tower->SetRotation(0.0f);
 				Tower->SetScale(1.0f);
 				FrostTowerPtr frostChild = FrostTower::SpawnAttached(*Tower);	// make an actor that encapsulates the cannon mesh
 				mSelectedTile->SetTower(frostChild);
 				frostChild->Freeze();
+				mGame.GetGameMode()->CostMoney(35);
+				std::string text = "Money: $" + std::to_string(mGame.GetGameMode()->GetMoney());
+				mGame.GetGameMode()->GetHUD()->GetMoney()->SetText(text, Color::Yellow);
 			}
 			else
 			{
 				AssetCache& mAssetCache = mGame.GetAssetCache();
 				SoundPtr mErrorSound = mAssetCache.Load<Sound>("Sounds/ErrorSound.wav");
 				mAudioComp->PlaySound(mErrorSound);
+				std::string text = "You Can't Block The Path!";
+				mGame.GetGameMode()->GetHUD()->GetStatusMsg()->SetText(text, Color::LightPink);
+				mGame.GetGameMode()->GetHUD()->ShowMessage();
 				mGame.GetNavWorld().GetNode(x, y).blocked = false;
 				mGame.GetNavWorld().TryFindPath();
 			}
 		}
 		else
 		{
-			//std::cout << " Not Enough Money!" << std::endl;
+			AssetCache& mAssetCache = mGame.GetAssetCache();
+			SoundPtr mErrorSound = mAssetCache.Load<Sound>("Sounds/ErrorSound.wav");
+			mAudioComp->PlaySound(mErrorSound);
+			std::string text = "Not Enough Money!";
+			mGame.GetGameMode()->GetHUD()->GetStatusMsg()->SetText(text, Color::LightPink);
+			mGame.GetGameMode()->GetHUD()->ShowMessage();
 		}
 	}
 	else	// if the tower is not successfully built, play the error sound

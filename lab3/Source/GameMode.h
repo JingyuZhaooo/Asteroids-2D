@@ -3,6 +3,7 @@
 #include "Tile.h"
 #include "AudioComponent.h"
 #include "NavWorld.h"
+#include "HUD.h"
 
 class GameMode : public Actor
 {
@@ -28,7 +29,11 @@ public:
 	void SpawnFrost();
 	void InitPathNodes();
 	void AddMoney(int money) { mMoney += money; };
-	void ReduceHP() { mMoney -= 1; };
+	void CostMoney(int cost) { mMoney -= cost; };
+	void ReduceHP() { mHP -= 1; };
+	HUDPtr GetHUD() { return mHUD; };
+	int GetMoney() { return mMoney; };
+	int GetHP() { return mHP; };
 private:
     // Create the tiles
 	void CreateTiles();
@@ -42,6 +47,7 @@ private:
 	AudioComponentPtr mAudioComp;
 	int mMoney;
 	int mHP;
+	HUDPtr mHUD;
 };
 
 DECL_PTR(GameMode);

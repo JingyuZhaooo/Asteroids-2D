@@ -1,6 +1,7 @@
 #include "Renderer.h"
 #include "Game.h"
 #include "SpriteComponent.h"
+#include "FontComponent.h"
 
 Renderer::Renderer(Game& game)
 	:mGame(game)
@@ -94,7 +95,7 @@ void Renderer::RenderFrame()
 
 void Renderer::AddComponent(DrawComponentPtr component)
 {
-	if (IsA<SpriteComponent>(component))
+	if (IsA<SpriteComponent>(component) || IsA<FontComponent>(component))
 	{
 		mComponents2D.emplace(component);
 	}
@@ -106,7 +107,7 @@ void Renderer::AddComponent(DrawComponentPtr component)
 
 void Renderer::RemoveComponent(DrawComponentPtr component)
 {
-	if (IsA<SpriteComponent>(component))
+	if (IsA<SpriteComponent>(component) || IsA<FontComponent>(component))
 	{
 		auto iter = mComponents2D.find(component);
 		if (iter != mComponents2D.end())
