@@ -18,6 +18,8 @@ GameMode::GameMode(Game& game)
 {
 	mEnemyCount = 0;
 	mWaveCount = 1;
+	mMoney = 50;
+	mHP = 10;
 }
 
 void GameMode::BeginPlay()
@@ -154,17 +156,33 @@ void GameMode::SpawnCanon()
 {
 	if (mSelectedTile != nullptr && mSelectedTile->GetTower() == nullptr) // selected tile does not have a tower built
 	{
-		CannonTowerPtr Tower = CannonTower::SpawnAttached(*mSelectedTile); // create a cannonTower, inherit from the selected Tile
-		Tower->SetRotation(0.0f);
-		Tower->SetScale(1.0f);
-		
-		//CannonTowerPtr cannonChild = CannonTower::SpawnAttached(*Tower);	// make an actor that encapsulates the cannon mesh
-
-		//mGame.GetNavWorld().GetNode
-		mGame.GetNavWorld().TryFindPath();
-		mSelectedTile->SetTower(Tower);
-
-		Tower->FireCannon();
+		if (mMoney >= 25)
+		{ 
+			int x = mSelectedTile->GetGridPos().x;
+			int y = mSelectedTile->GetGridPos().y;
+			mGame.GetNavWorld().GetNode(x, y).blocked = true;
+			if(mGame.GetNavWorld().TryFindPath())	// if we cannot find a path, then building the tower is going to block the path
+			{
+				CannonTowerPtr Tower = CannonTower::SpawnAttached(*mSelectedTile); // create a cannonTower, inherit from the selected Tile
+				mMoney -= 25;
+				Tower->SetRotation(0.0f);
+				Tower->SetScale(1.0f);
+				mSelectedTile->SetTower(Tower);
+				Tower->FireCannon();
+			}
+			else
+			{
+				AssetCache& mAssetCache = mGame.GetAssetCache();
+				SoundPtr mErrorSound = mAssetCache.Load<Sound>("Sounds/ErrorSound.wav");
+				mAudioComp->PlaySound(mErrorSound);
+				mGame.GetNavWorld().GetNode(x, y).blocked = false;
+				mGame.GetNavWorld().TryFindPath();
+			}
+		}
+		else
+		{
+			//std::cout << " Not Enough Money!" << std::endl;
+		}
 	}
 	else	// if the tower is not successfully built, play the error sound
 	{
@@ -178,14 +196,34 @@ void GameMode::SpawnFrost()
 {
 	if (mSelectedTile != nullptr && mSelectedTile->GetTower() == nullptr) // selected tile does not have a tower built
 	{
-		auto Tower = Tower::SpawnAttached(*mSelectedTile); // create a cannonTower, inherit from the selected Tile
-		Tower->SetRotation(0.0f);
-		Tower->SetScale(1.0f);
-
-		FrostTowerPtr frostChild = FrostTower::SpawnAttached(*Tower);	// make an actor that encapsulates the cannon mesh
-		mSelectedTile->SetTower(frostChild);
-		mGame.GetNavWorld().TryFindPath();
-		frostChild->Freeze();
+		if (mMoney >= 35)
+		{
+			int x = mSelectedTile->GetGridPos().x;
+			int y = mSelectedTile->GetGridPos().y;
+			mGame.GetNavWorld().GetNode(x, y).blocked = true;
+			if (mGame.GetNavWorld().TryFindPath())	// if we cannot find a path, then building the tower is going to block the path
+			{
+				auto Tower = Tower::SpawnAttached(*mSelectedTile); // create a cannonTower, inherit from the selected Tile
+				mMoney -= 35;
+				Tower->SetRotation(0.0f);
+				Tower->SetScale(1.0f);
+				FrostTowerPtr frostChild = FrostTower::SpawnAttached(*Tower);	// make an actor that encapsulates the cannon mesh
+				mSelectedTile->SetTower(frostChild);
+				frostChild->Freeze();
+			}
+			else
+			{
+				AssetCache& mAssetCache = mGame.GetAssetCache();
+				SoundPtr mErrorSound = mAssetCache.Load<Sound>("Sounds/ErrorSound.wav");
+				mAudioComp->PlaySound(mErrorSound);
+				mGame.GetNavWorld().GetNode(x, y).blocked = false;
+				mGame.GetNavWorld().TryFindPath();
+			}
+		}
+		else
+		{
+			//std::cout << " Not Enough Money!" << std::endl;
+		}
 	}
 	else	// if the tower is not successfully built, play the error sound
 	{

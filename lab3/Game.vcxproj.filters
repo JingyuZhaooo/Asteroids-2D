@@ -131,6 +131,9 @@
     <ClInclude Include="Source\NavWorld.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Source\NavComponent.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\Font.cpp">
@@ -245,6 +248,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Source\NavWorld.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\NavComponent.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

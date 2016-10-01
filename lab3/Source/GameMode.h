@@ -27,6 +27,8 @@ public:
 	void SpawnCanon();
 	void SpawnFrost();
 	void InitPathNodes();
+	void AddMoney(int money) { mMoney += money; };
+	void ReduceHP() { mMoney -= 1; };
 private:
     // Create the tiles
 	void CreateTiles();
@@ -38,6 +40,8 @@ private:
 	int mEnemyCount;
 	int mWaveCount;
 	AudioComponentPtr mAudioComp;
+	int mMoney;
+	int mHP;
 };
 
 DECL_PTR(GameMode);

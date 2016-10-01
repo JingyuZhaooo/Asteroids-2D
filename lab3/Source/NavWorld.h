@@ -9,6 +9,7 @@ public:
 	~NavWorld();
 	PathNode& GetNode(int row, int column);
 	bool TryFindPath();
+	PathNode* GetStartNode() { return mStartNode; };
 private:
 	PathNode mPathNodes[9][18]; // 2D array of the PathNodes
 	PathNode* mStartNode; //Spawn Spot

@@ -5,6 +5,7 @@
 #include "SphereCollision.h"
 #include "AudioComponent.h"
 #include "Sound.h"
+#include "NavComponent.h"
 
 class Enemy : public Actor
 {
@@ -24,5 +25,6 @@ private:
 	int mGotHit;
 	SoundPtr mDieSound;
 	AudioComponentPtr mAudioComp;
+	NavComponentPtr mNavComp;
 };
 DECL_PTR(Enemy);

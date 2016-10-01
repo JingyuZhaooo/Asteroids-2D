@@ -20,6 +20,8 @@ PathNode& NavWorld::GetNode(int row, int column)
 
 bool NavWorld::TryFindPath()
 {
+	mClosedSet.clear();
+	mOpenSet.clear();
 	PathNode* startNode = &mPathNodes[4][0];
 	PathNode * endNode = &mPathNodes[4][17];
 	
@@ -50,22 +52,20 @@ bool NavWorld::TryFindPath()
 					n->f = n->g + n->h;
 				}
 			}
-			else
+			else if(n->blocked == false)
+			
 			{
 				n->mParent = currentNode;
 				n->h = fabs(n->mGridPos.x - endNode->mGridPos.x) + fabs(n->mGridPos.y - endNode->mGridPos.y);
 				n->g = n->mParent->g + 1.0f;
 				n->f = n->g + n->h;
 				mOpenSet.insert(n);
-				if (n->blocked == false)
-				{
-					mOpenSet.insert(n);
-				}
+				
 			}
 		}
 		if (mOpenSet.empty())
 		{
-			break;
+			return false;
 		}
 		float roof = 1000; // f value must be less than 1000
 		for (auto i : mOpenSet)
@@ -80,8 +80,6 @@ bool NavWorld::TryFindPath()
 		mClosedSet.insert(currentNode);
 	} while (currentNode != startNode);
 	// print all the x in the middle of the tiles
-	if (currentNode = startNode) // found a path
-	{ 
 		PathNode* tempNode = startNode;
 		while (tempNode != nullptr)
 		{
@@ -89,6 +87,4 @@ bool NavWorld::TryFindPath()
 			tempNode = tempNode->mParent;
 		}
 		return true;
-	}
-	return false;
 }

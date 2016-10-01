@@ -20,6 +20,7 @@ Enemy::Enemy(Game& mGame) : Actor(mGame)
 	coll->SetScale(0.3f);
 	mGotHit = 0;
 	mDieSound = mAssetCache.Load<Sound>("Sounds/WilhelmScream.wav");
+	mNavComp = NavComponent::Create(*this, MoveComponent::PreTick);
 }
 
 void Enemy::Tick(float deltaTime)
@@ -43,6 +44,7 @@ void Enemy::BeginTouch(Actor& other)
 	if (IsAlive() == true && IsA<Tile>(other))
 	{
 		SetIsAlive(false);
+		mGame.GetGameMode()->ReduceHP();
 	}
 	if (IsAlive() == true && IsA<Cannonball>(other))
 	{
@@ -52,6 +54,7 @@ void Enemy::BeginTouch(Actor& other)
 		{
 			SetIsAlive(false);
 			mAudioComp->PlaySound(mDieSound);
+			mGame.GetGameMode()->AddMoney(10);
 		}
 	}
 }
