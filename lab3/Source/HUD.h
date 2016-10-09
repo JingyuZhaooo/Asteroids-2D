@@ -14,6 +14,10 @@ public:
 	FontComponentPtr GetMoney() { return mMoney; };
 	FontComponentPtr GetStatusMsg() { return mStatusMsg; };
 private:
+	ActorPtr HitPointDel;
+	ActorPtr MoneyDel;
+	ActorPtr StatusDel;
+
 	FontComponentPtr mHitPoint;
 	FontComponentPtr mMoney;
 	FontComponentPtr mStatusMsg;

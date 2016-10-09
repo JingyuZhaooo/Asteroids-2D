@@ -21,6 +21,7 @@ Game::~Game()
 	mWorld.RemoveAllActors();
 	Mix_CloseAudio();
 	SDL_Quit();
+	mGameModePtr->ClearActorPointers();
 	mGameModePtr = nullptr; //does't solve the crash on exit
 	TTF_Quit();
 }

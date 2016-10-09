@@ -8,6 +8,9 @@
 #include "World.h"
 #include "AssetCache.h"
 #include "PhysWorld.h"
+#include "Ship.h"
+#include "InputManager.h"
+#include "GameTimers.h"
 
 class Game
 {
@@ -22,6 +25,9 @@ public:
 	World& GetWorld() { return mWorld; }
 	AssetCache& GetAssetCache() { return mAssetCache; }
 	PhysWorld& GetPhysWorld() { return mPhysWorld; }
+	InputManager& GetInput() { return mInput; }
+	void AddInputMappings();
+	GameTimerManager& GetGameTimers() { return mGameTimer; }
 private:
 	void StartGame();
 	
@@ -37,6 +43,9 @@ private:
 	World mWorld;
 	AssetCache mAssetCache;
 	PhysWorld mPhysWorld;
+	ShipPtr myShip;
 
 	bool mShouldQuit;
+	InputManager mInput;
+	GameTimerManager mGameTimer;
 };

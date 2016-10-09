@@ -27,5 +27,5 @@ void DrawComponent::Unregister()
 
 void DrawComponent::Draw(class Renderer& render)
 {
-
+	
 }

@@ -6,7 +6,7 @@ IMPL_ACTOR(HUD, Actor);
 HUD::HUD(Game &mGame) :Actor(mGame)
 {
 
-	ActorPtr HitPointDel = Actor::Spawn(mGame);
+	HitPointDel = Actor::Spawn(mGame);
 	mHitPoint = FontComponent::Create(*HitPointDel);
 	AssetCache& mAssetCache = mGame.GetAssetCache();
 	FontPtr mFont = mAssetCache.Load<Font>("Fonts/Carlito-Regular.ttf");
@@ -14,13 +14,13 @@ HUD::HUD(Game &mGame) :Actor(mGame)
 	mHitPoint->SetText("Base Health: 10", Color::LightGreen);
 	HitPointDel->SetPosition(Vector3(-450, -300, 0));
 
-	ActorPtr MoneyDel = Actor::Spawn(mGame);
+	MoneyDel = Actor::Spawn(mGame);
 	mMoney = FontComponent::Create(*MoneyDel);
 	mMoney->SetFont(mFont);
 	mMoney->SetText("Money: $50", Color::Yellow);
 	MoneyDel->SetPosition(Vector3(-450, 300, 0));
 
-	ActorPtr StatusDel = Actor::Spawn(mGame);
+	StatusDel = Actor::Spawn(mGame);
 	mStatusMsg = FontComponent::Create(*StatusDel);
 	mStatusMsg->SetFont(mFont);
 	mStatusMsg->SetText("", Color::LightPink);
@@ -30,6 +30,9 @@ HUD::HUD(Game &mGame) :Actor(mGame)
 
 HUD::~HUD()
 {
+	HitPointDel = nullptr;
+	MoneyDel = nullptr;
+	StatusDel = nullptr;
 }
 
 void HUD::ShowMessage()

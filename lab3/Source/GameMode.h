@@ -34,6 +34,7 @@ public:
 	HUDPtr GetHUD() { return mHUD; };
 	int GetMoney() { return mMoney; };
 	int GetHP() { return mHP; };
+	void ClearActorPointers() { mHUD = nullptr; };
 private:
     // Create the tiles
 	void CreateTiles();

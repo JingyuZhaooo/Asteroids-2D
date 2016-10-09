@@ -35,6 +35,7 @@ void GameMode::BeginPlay()
 
 void GameMode::EndPlay()
 {
+	mHUD = nullptr;
 	Super::EndPlay();
 }
 
