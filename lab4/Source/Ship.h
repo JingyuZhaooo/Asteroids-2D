@@ -7,6 +7,7 @@
 #include "InputComponent.h"
 #include "SphereCollision.h"
 #include "MeshComponent.h"
+#include "CameraComponent.h"
 
 class Ship : public Actor
 {
@@ -27,5 +28,6 @@ private:
 	SoundCue soundCue;
 	SoundPtr mShipDie;
 	AudioComponentPtr mShipDieSound;
+	CameraComponentPtr mCamComp;
 };
 DECL_PTR(Ship);

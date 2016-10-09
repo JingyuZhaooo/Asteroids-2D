@@ -7,6 +7,7 @@
 #include "Asteroid.h"
 #include "GameTimers.h"
 
+
 IMPL_ACTOR(Ship, Actor);
 Ship::Ship(Game& mGame) : Actor(mGame) // Initializer list
 {
@@ -27,10 +28,8 @@ Ship::Ship(Game& mGame) : Actor(mGame) // Initializer list
 	moveShip->SetLinearSpeed(400.0f);
 	moveShip->SetAngularSpeed(Math::Pi);
 	this->SetScale(1.0f);
-
-	auto coll = SphereCollision::Create(*this);
-	coll->RadiusFromMesh(mMesh);
-	coll->SetScale(0.75f);
+	mCamComp = CameraComponent::Create(*this);
+	mCamComp->SetMoveComp(moveShip);
 }
 void Ship::Tick(float deltaTime)
 {
@@ -48,6 +47,7 @@ void Ship::Tick(float deltaTime)
 
 void Ship::BeginPlay()
 {
+	//mCamComp->Initialize();
 	moveShip->BindLinearAxis("Move");
 	moveShip->BindAngularAxis("Rotate");
 }

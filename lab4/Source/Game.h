@@ -11,6 +11,7 @@
 #include "Ship.h"
 #include "InputManager.h"
 #include "GameTimers.h"
+#include "CameraComponent.h"
 
 class Game
 {

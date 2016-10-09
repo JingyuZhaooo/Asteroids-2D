@@ -82,17 +82,14 @@ void Game::Quit()
 
 void Game::StartGame()
 {
-	/*
-	const int NUM_ASTEROIDS = 10;
-	Vector3 minVec(-512.0f, -384.0f, 0.0f); 
-	Vector3 maxVec(512.f, 384.f, 0.0f); 
+	const int NUM_ASTEROIDS = 500;
+	Vector3 minVec(-5000, -5000, -5000); 
+	Vector3 maxVec(5000, 5000, 5000); 
 	for (int i = 0; i < NUM_ASTEROIDS; i++) 
 	{
 		auto ast = Asteroid::Spawn(*this); 
 		ast->SetPosition(Random::GetVector(minVec, maxVec)); 
-		ast->SetScale(0.75f); 
 	}
-	*/
 	myShip = Ship::Spawn(*this);
 	myShip->SetPosition(Vector3(0.0f, 0.0f, 0.0f));
 	myShip->SetRotation(Math::PiOver2);

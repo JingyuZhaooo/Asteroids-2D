@@ -16,6 +16,7 @@
     <ClInclude Include="Source\AssetCache.h" />
     <ClInclude Include="Source\Asteroid.h" />
     <ClInclude Include="Source\AudioComponent.h" />
+    <ClInclude Include="Source\CameraComponent.h" />
     <ClInclude Include="Source\CollisionComponent.h" />
     <ClInclude Include="Source\Component.h" />
     <ClInclude Include="Source\Delegate.h" />
@@ -25,6 +26,7 @@
     <ClInclude Include="Source\FrameTimer.h" />
     <ClInclude Include="Source\Game.h" />
     <ClInclude Include="Source\GameTimers.h" />
+    <ClInclude Include="Source\HUD.h" />
     <ClInclude Include="Source\InputComponent.h" />
     <ClInclude Include="Source\InputManager.h" />
     <ClInclude Include="Source\Math.h" />
@@ -51,6 +53,7 @@
     <ClCompile Include="Source\AssetCache.cpp" />
     <ClCompile Include="Source\Asteroid.cpp" />
     <ClCompile Include="Source\AudioComponent.cpp" />
+    <ClCompile Include="Source\CameraComponent.cpp" />
     <ClCompile Include="Source\CollisionComponent.cpp" />
     <ClCompile Include="Source\Component.cpp" />
     <ClCompile Include="Source\DrawComponent.cpp" />
@@ -59,6 +62,7 @@
     <ClCompile Include="Source\FrameTimer.cpp" />
     <ClCompile Include="Source\Game.cpp" />
     <ClCompile Include="Source\GameTimers.cpp" />
+    <ClCompile Include="Source\HUD.cpp" />
     <ClCompile Include="Source\InputComponent.cpp" />
     <ClCompile Include="Source\InputManager.cpp" />
     <ClCompile Include="Source\Main.cpp" />

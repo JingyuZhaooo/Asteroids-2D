@@ -13,7 +13,7 @@ Asteroid::Asteroid(Game& mGame) : Actor(mGame) // Initializer list
 	AssetCache& mAssetCache = mGame.GetAssetCache();
 	MeshPtr texture = mAssetCache.Load<Mesh>("Meshes/AsteroidMesh.itpmesh2");
 	asteroid->SetMesh(texture);
-
+	SetScale(0.1f);
 	SetRotation(Random::GetFloatRange(0.0f, Math::TwoPi));
 
 	auto move = MoveComponent::Create(*this, Component::PreTick);

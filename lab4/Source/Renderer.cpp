@@ -40,7 +40,7 @@ bool Renderer::Init(int width, int height)
 	SDL_GL_SetAttribute(SDL_GL_ACCELERATED_VISUAL, 1);
 
 	// Create our SDL window
-	mWindow = SDL_CreateWindow("Lab 1: Asteroids 2D", 100, 100, width, height, 
+	mWindow = SDL_CreateWindow("Lab 4: Space Racer", 100, 100, width, height, 
 		SDL_WINDOW_OPENGL);
 
 	if (!mWindow)
@@ -214,8 +214,9 @@ bool Renderer::InitShaders()
 
 	mSpriteShader->SetActive();
 	mSpriteShader->BindViewProjection(mSpriteViewProj);
-	mViewProj = mSpriteViewProj;
-	mBasicMeshShader->BindViewProjection(mViewProj);
+
+	mProj = Matrix4::CreatePerspectiveFOV(1.22, mWidth, mHeight, 25.0f, 10000.0f); //mSpriteViewProj;
+	mBasicMeshShader->BindViewProjection(mProj);
 	return true;
 }
 
@@ -253,4 +254,10 @@ void Renderer::DrawBasicMesh(VertexArrayPtr vertArray, TexturePtr texture, const
 	mBasicMeshShader->BindTexture("uTexture", texture, 0); 
 	// Now draw the triangles! 
 	DrawVertexArray(vertArray);
+}
+
+void Renderer::UpdateViewMatrix(const Matrix4 & newView)
+{
+	mView = newView;
+	mBasicMeshShader->BindViewProjection(mView * mProj);
 }
