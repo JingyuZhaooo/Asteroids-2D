@@ -19,9 +19,8 @@ public:
 	float GetLinearSpeed() const { return mLinearSpeed; }
 
 	// Angular speed (in radians/s)
-	void SetAngularSpeed(float speed) { mAngularSpeed = speed; }
-	float GetAngularSpeed() const { return mAngularSpeed; }
-
+	void SetYawSpeed(float speed) { mYawSpeed = speed; }
+	float GetYawSpeed() const { return mYawSpeed; }
 	// AddTo calls should always be +1.0f or -1.0f
 	void AddToLinearAxis(float delta);
 	void AddToAngularAxis(float delta);
@@ -29,16 +28,25 @@ public:
 	void SetLinearAxis(float axis);
 	float GetLinearAxis() const { return mLinearAxis; }
 
-	void SetAngularAxis(float axis);
-	float GetAngularAxis() const { return mAngularAxis; }
+	void SetYawAxis(float axis);
+	float GetYawAxis() const { return mYawAxis; }
+
+	float GetPitchSpeed() const { return mPitchSpeed; };
+	void SetPitchSpeed(float speed) { mPitchSpeed = speed; }; 
+	void AddToPitchAxis(float delta);
+	void SetPitchAxis(float axis) { mPitchAxis = axis; };
+	float GetPitchAxis() { return mPitchAxis; };
 private:
 	Vector3 mVelocity;
 
 	float mLinearSpeed;
-	float mAngularSpeed;
+	float mYawSpeed;
 
 	float mLinearAxis;
-	float mAngularAxis;
+	float mYawAxis;
+
+	float mPitchSpeed;
+	float mPitchAxis;
 };
 
 DECL_PTR(MoveComponent);

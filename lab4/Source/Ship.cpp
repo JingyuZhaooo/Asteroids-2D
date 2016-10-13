@@ -22,11 +22,12 @@ Ship::Ship(Game& mGame) : Actor(mGame) // Initializer list
 	soundCue.Pause();
 	mMesh = mAssetCache.Load<Mesh>("Meshes/PlayerShip.itpmesh2");
 	texture->SetMesh(mMesh);
-	SetRotation(Random::GetFloatRange(0.0f, Math::TwoPi));
+	SetRotation(Quaternion(this->GetWorldTransform().GetZAxis(), Math::PiOver2));
 
 	moveShip = InputComponent::Create(*this, Component::PreTick);
 	moveShip->SetLinearSpeed(400.0f);
-	moveShip->SetAngularSpeed(Math::Pi);
+	moveShip->SetYawSpeed(Math::Pi);
+	moveShip->SetPitchSpeed(Math::Pi);
 	this->SetScale(1.0f);
 	mCamComp = CameraComponent::Create(*this);
 	mCamComp->SetMoveComp(moveShip);
@@ -47,9 +48,10 @@ void Ship::Tick(float deltaTime)
 
 void Ship::BeginPlay()
 {
-	//mCamComp->Initialize();
+	mGame.GetInput().BindAction("Recenter", IE_Pressed, this, &Ship::Recenter);
 	moveShip->BindLinearAxis("Move");
-	moveShip->BindAngularAxis("Rotate");
+	moveShip->BindYawAxis("Yaw");
+	moveShip->BindPitchAxis("Pitch");
 }
 
 void Ship::OnRespawnShip()
@@ -58,5 +60,11 @@ void Ship::OnRespawnShip()
 	texture->SetIsVisible(true);
 	soundCue.Resume();
 	this->SetPosition(Vector3(0.0f, 0.0f, 0.0f));
-	this->SetRotation(Math::PiOver2);
+	this->SetRotation(Quaternion(this->GetWorldTransform().GetZAxis(), Math::PiOver2));
+}
+
+void Ship::Recenter()
+{
+	this->SetRotation(Quaternion::Identity);
+	mCamComp->Initialize();
 }

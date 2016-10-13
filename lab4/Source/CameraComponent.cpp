@@ -43,6 +43,8 @@ void CameraComponent::CalculateIdeal()
 	Vector3 shipPos = mOwner.GetPosition();
 	// calculate the ideal position of the camera
 	mIdealCamPos = shipPos - mOwner.GetWorldTransform().GetXAxis() * mHFollowInterpo + mOwner.GetWorldTransform().GetZAxis() * mVFollow;
+
+	mBetterTargetPos = shipPos + mTargetOffset*mOwner.GetForward(); // new target position adjusted for target offset
 }
 
 
@@ -50,7 +52,7 @@ void CameraComponent::Initialize()
 {
 	Vector3 shipPos = mOwner.GetPosition();
 	mActualCamPos = shipPos - mOwner.GetWorldTransform().GetXAxis() * mHFollow + mOwner.GetWorldTransform().GetZAxis() * mVFollow;
-	mBetterTargetPos = Vector3(shipPos.x, shipPos.y + mTargetOffset, shipPos.z); // new target position adjusted for target offset
+	mBetterTargetPos = shipPos + mTargetOffset*mOwner.GetForward(); // new target position adjusted for target offset
 	mCamForward = mBetterTargetPos - mActualCamPos;
 	mCamForward.Normalize();
 	mCamLeft = Cross(mOwner.GetWorldTransform().GetZAxis(), mCamForward);

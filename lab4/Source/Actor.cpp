@@ -8,7 +8,7 @@ Actor::Actor(Game& game)
 	:mGame(game)
 	, mParent(nullptr)
 	, mScale(1.0f)
-	, mRotation(0.0f)
+	, mRotation(Vector3(0.0f, 0.0f, 0.0f), 0)
 	, mIsAlive(true)
 	, mIsPaused(false)
 {
@@ -102,7 +102,7 @@ void Actor::ComputeWorldTransform()
 {
 	Matrix4 mMatrix = GetWorldTransform();
 	Matrix4 scaleMat = mMatrix.CreateScale(mScale);
-	Matrix4 RotationMat = mMatrix.CreateRotationZ(mRotation);
+	Matrix4 RotationMat = mMatrix.CreateFromQuaternion(mRotation);
 	Matrix4 TranslationMat = mMatrix.CreateTranslation(mPosition);
 	mWorldTransform = scaleMat * RotationMat * TranslationMat;
 	// No parent is the base case

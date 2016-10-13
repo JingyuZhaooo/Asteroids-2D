@@ -92,7 +92,7 @@ void Game::StartGame()
 	}
 	myShip = Ship::Spawn(*this);
 	myShip->SetPosition(Vector3(0.0f, 0.0f, 0.0f));
-	myShip->SetRotation(Math::PiOver2);
+	//myShip->SetRotation(Quaternion::Identity);
 }
 
 void Game::ProcessInput()
@@ -148,8 +148,10 @@ void Game::GenerateOutput()
 void Game::AddInputMappings()
 {
 	mInput.AddActionMapping("Quit", SDLK_ESCAPE);
-	mInput.AddActionMapping("Fire", SDLK_SPACE);
+	//mInput.AddActionMapping("Fire", SDLK_SPACE);
 	mInput.BindAction("Quit", IE_Released, this, &Game::Quit);
-	mInput.AddAxisMapping("Move", 'w', 's'); 
-	mInput.AddAxisMapping("Rotate", 'a', 'd');
+	mInput.AddAxisMapping("Move", 'p', SDLK_SEMICOLON);
+	mInput.AddAxisMapping("Yaw", 'd', 'a');
+	mInput.AddAxisMapping("Pitch", 's', 'w');
+	mInput.AddActionMapping("Recenter", SDLK_r);
 }

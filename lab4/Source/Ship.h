@@ -18,6 +18,7 @@ public:
 	void Tick(float deltaTime) override;
 	void BeginPlay() override;
 	void OnRespawnShip();
+	void Recenter();
 private:
 	InputComponentPtr moveShip;
 	MeshPtr mMesh;
