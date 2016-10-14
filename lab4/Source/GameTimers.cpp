@@ -147,6 +147,10 @@ void GameTimerManager::AddTime(const TimerHandle& handle, float time)
 
 void GameTimerManager::ClearAllTimers(Object* obj)
 {
+	if (mObjToHandlesMap.empty())
+	{
+		return;
+	}
 	auto iter = mObjToHandlesMap.find(obj);
 	if (iter != mObjToHandlesMap.end())
 	{

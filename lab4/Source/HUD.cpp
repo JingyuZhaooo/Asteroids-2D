@@ -17,7 +17,7 @@ HUD::HUD(Game &mGame) :Actor(mGame)
 	TimeDel = Actor::Spawn(mGame);
 	mTime = FontComponent::Create(*TimeDel);
 	mTime->SetFont(mFont);
-	mTime->SetText("Time: 30", Color::LightGreen);
+	mTime->SetText("Time: 15", Color::LightGreen);
 	TimeDel->SetPosition(Vector3(-41, 300, 0));
 
 	GameOverDel = Actor::Spawn(mGame);
@@ -30,17 +30,10 @@ HUD::HUD(Game &mGame) :Actor(mGame)
 
 HUD::~HUD()
 {
-	ScoreDel = nullptr;
-	TimeDel = nullptr;
-	GameOverDel = nullptr;
-	mScore = nullptr;
-	mTime = nullptr;
-	mGameOverMsg = nullptr;
+
 }
 
 void HUD::ShowMessage()
 {
 	mGameOverMsg->SetIsVisible(true);
-	TimerHandle tempTimeHandle;
-
 }

@@ -19,7 +19,7 @@ Actor::~Actor()
 {
 	RemoveAllChildren();
 	RemoveAllComponents();
-	mGame.GetGameTimers().ClearAllTimers(this);
+	//mGame.GetGameTimers().ClearAllTimers(this);
 }
 
 void Actor::BeginPlay()

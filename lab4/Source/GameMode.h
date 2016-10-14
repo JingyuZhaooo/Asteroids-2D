@@ -22,7 +22,7 @@ public:
 private:
 	void SpawnCheckpoint();
 	CheckpointPtr mCheckpoint;
-	ArrowPtr mArror;
+	ArrowPtr mArrow;
 	HUDPtr mHUD;
 	int mScore;
 	int mTimeLeft;

@@ -17,11 +17,11 @@ Game::Game()
 
 Game::~Game()
 {
-	myShip = nullptr;
 	mAssetCache.Clear();
 	mWorld.RemoveAllActors();
 	Mix_CloseAudio();
 	SDL_Quit();
+	mGameModePtr = nullptr;
 	TTF_Quit();
 }
 
@@ -95,7 +95,6 @@ void Game::StartGame()
 	myShip = Ship::Spawn(*this);
 	myShip->SetPosition(Vector3(0.0f, 0.0f, 0.0f));
 	mGameModePtr = GameMode::Spawn(*this); // Spawn checkpoint after ship
-	//myShip->SetRotation(Quaternion::Identity);
 }
 
 void Game::ProcessInput()

@@ -11,17 +11,17 @@ GameMode::GameMode(Game& game)
 	
 	SpawnCheckpoint();
 	mScore = 0;
-	mTimeLeft = 30;
+	mTimeLeft = 15;
 }
 
 void GameMode::BeginPlay()
 {
 	Super::BeginPlay();
-	mArror = Arrow::Spawn(mGame);
+	mArrow = Arrow::Spawn(mGame);
 	ActorPtr ship = mGame.GetShip();
-	mArror->SetPlayer(ship);
+	mArrow->SetPlayer(ship);
 	Vector3 position = mCheckpoint->GetPosition();
-	mArror->SetCheckpointLoc(position);
+	mArrow->SetCheckpointLoc(position);
 	mHUD = HUD::Spawn(mGame);
 	TimerHandle timeHandle;
 	mGame.GetGameTimers().SetTimer(timeHandle, this, &GameMode::TimeDecrement, 1.0f);
@@ -30,8 +30,9 @@ void GameMode::BeginPlay()
 void GameMode::EndPlay()
 {
 	mHUD = nullptr;
-	Super::EndPlay();
-	
+	mArrow = nullptr;
+	mCheckpoint = nullptr;
+	//Super::EndPlay();
 }
 
 void GameMode::CollectCheckpoint()
@@ -46,11 +47,16 @@ void GameMode::CollectCheckpoint()
 
 void GameMode::SpawnCheckpoint()
 {
-	float hardness = 1 + ((static_cast<float>(mScore) / 1000));
+	float difficulty = 1.0;
+	if (mScore >= 1000)
+	{
+		difficulty = static_cast<float>(mScore) / 1000.0;
+	}
+	
 	mCheckpoint = Checkpoint::Spawn(mGame);
 	Vector3 playerPos = mGame.GetShip()->GetPosition(); // get the player's position
 	Vector3 minVec(playerPos.x - 1000, playerPos.y - 1000, playerPos.z - 1000); // min Vector
-	Vector3 maxVec(playerPos.x + 1000, playerPos.y + 1000, playerPos.z + 1000); // max Vector, accounted for hardness
+	Vector3 maxVec(playerPos.x + 1000 * difficulty, playerPos.y + 1000 * difficulty, playerPos.z + 1000 * difficulty); // max Vector, accounted for difficulty
 	mCheckpoint->SetPosition(Random::GetVector(minVec, maxVec));	// set the location of the Checkpoint
 }
 
