@@ -15,12 +15,18 @@ GameMode::GameMode(Game& game)
 void GameMode::BeginPlay()
 {
 	Super::BeginPlay();
+	mArror = Arrow::Spawn(mGame);
+	ActorPtr ship = mGame.GetShip();
+	mArror->SetPlayer(ship);
+	Vector3 position = mCheckpoint->GetPosition();
+	mArror->SetCheckpointLoc(position);
 }
 
 void GameMode::EndPlay()
 {
 	//mHUD = nullptr;
 	Super::EndPlay();
+	
 }
 
 void GameMode::CollectCheckpoint()
