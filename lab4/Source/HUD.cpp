@@ -6,44 +6,41 @@ IMPL_ACTOR(HUD, Actor);
 HUD::HUD(Game &mGame) :Actor(mGame)
 {
 
-	HitPointDel = Actor::Spawn(mGame);
-	mHitPoint = FontComponent::Create(*HitPointDel);
+	ScoreDel = Actor::Spawn(mGame);
+	mScore = FontComponent::Create(*ScoreDel);
 	AssetCache& mAssetCache = mGame.GetAssetCache();
 	FontPtr mFont = mAssetCache.Load<Font>("Fonts/Carlito-Regular.ttf");
-	mHitPoint->SetFont(mFont);
-	mHitPoint->SetText("Base Health: 10", Color::LightGreen);
-	HitPointDel->SetPosition(Vector3(-450, -300, 0));
+	mScore->SetFont(mFont);
+	mScore->SetText("Score: 000", Color::Yellow);
+	ScoreDel->SetPosition(Vector3(-50, 325, 0));
 
-	MoneyDel = Actor::Spawn(mGame);
-	mMoney = FontComponent::Create(*MoneyDel);
-	mMoney->SetFont(mFont);
-	mMoney->SetText("Money: $50", Color::Yellow);
-	MoneyDel->SetPosition(Vector3(-450, 300, 0));
+	TimeDel = Actor::Spawn(mGame);
+	mTime = FontComponent::Create(*TimeDel);
+	mTime->SetFont(mFont);
+	mTime->SetText("Time: 30", Color::LightGreen);
+	TimeDel->SetPosition(Vector3(-41, 300, 0));
 
-	StatusDel = Actor::Spawn(mGame);
-	mStatusMsg = FontComponent::Create(*StatusDel);
-	mStatusMsg->SetFont(mFont);
-	mStatusMsg->SetText("", Color::LightPink);
-	StatusDel->SetPosition(Vector3(-100, 0, 0));
-	mStatusMsg->SetIsVisible(false);
+	GameOverDel = Actor::Spawn(mGame);
+	mGameOverMsg = FontComponent::Create(*GameOverDel);
+	mGameOverMsg->SetFont(mFont);
+	mGameOverMsg->SetText("Game Over!", Color::LightPink);
+	GameOverDel->SetPosition(Vector3(-60, 0, 0));
+	mGameOverMsg->SetIsVisible(false);
 }
 
 HUD::~HUD()
 {
-	HitPointDel = nullptr;
-	MoneyDel = nullptr;
-	StatusDel = nullptr;
+	ScoreDel = nullptr;
+	TimeDel = nullptr;
+	GameOverDel = nullptr;
+	mScore = nullptr;
+	mTime = nullptr;
+	mGameOverMsg = nullptr;
 }
 
 void HUD::ShowMessage()
 {
-	mStatusMsg->SetIsVisible(true);
+	mGameOverMsg->SetIsVisible(true);
 	TimerHandle tempTimeHandle;
-	mGame.GetGameTimers().SetTimer(tempTimeHandle, this, &HUD::HideMessage, 2.0f);
 
-}
-
-void HUD::HideMessage()
-{
-	mStatusMsg->SetIsVisible(false);
 }

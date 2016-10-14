@@ -76,7 +76,7 @@ void Game::RunLoop()
 
 void Game::Quit()
 {
-
+	//TTF_Quit();
 	mShouldQuit = true;
 }
 

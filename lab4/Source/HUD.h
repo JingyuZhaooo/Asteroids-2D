@@ -9,17 +9,16 @@ public:
 	HUD(Game &mGame);
 	~HUD();
 	void ShowMessage();
-	void HideMessage();
-	FontComponentPtr GetHitPoint() { return mHitPoint; };
-	FontComponentPtr GetMoney() { return mMoney; };
-	FontComponentPtr GetStatusMsg() { return mStatusMsg; };
+	FontComponentPtr GetScore() { return mScore; };
+	FontComponentPtr GetTime() { return mTime; };
+	FontComponentPtr GetStatusMsg() { return mGameOverMsg; };
 private:
-	ActorPtr HitPointDel;
-	ActorPtr MoneyDel;
-	ActorPtr StatusDel;
+	ActorPtr ScoreDel;
+	ActorPtr TimeDel;
+	ActorPtr GameOverDel;
 
-	FontComponentPtr mHitPoint;
-	FontComponentPtr mMoney;
-	FontComponentPtr mStatusMsg;
+	FontComponentPtr mScore;
+	FontComponentPtr mTime;
+	FontComponentPtr mGameOverMsg;
 };
 DECL_PTR(HUD);

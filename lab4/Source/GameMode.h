@@ -15,11 +15,17 @@ public:
 	void EndPlay() override;
 	void CollectCheckpoint();
 	CheckpointPtr GetCheckpoint() { return mCheckpoint; };
+	HUDPtr GetHUD() { return mHUD; };
+	int GetScore() { return mScore; };
+	void TimeDecrement();
+	int GetTime() { return mTimeLeft; };
 private:
 	void SpawnCheckpoint();
 	CheckpointPtr mCheckpoint;
 	ArrowPtr mArror;
-	//HUDPtr mHUD;
+	HUDPtr mHUD;
+	int mScore;
+	int mTimeLeft;
 };
 
 DECL_PTR(GameMode);
