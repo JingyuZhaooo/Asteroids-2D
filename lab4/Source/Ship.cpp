@@ -5,8 +5,8 @@
 #include "Sound.h"
 #include "GameTimers.h"
 #include "Asteroid.h"
-#include "GameTimers.h"
-
+#include "Checkpoint.h"
+#include "GameMode.h"
 
 IMPL_ACTOR(Ship, Actor);
 Ship::Ship(Game& mGame) : Actor(mGame) // Initializer list
@@ -31,6 +31,12 @@ Ship::Ship(Game& mGame) : Actor(mGame) // Initializer list
 	this->SetScale(1.0f);
 	mCamComp = CameraComponent::Create(*this);
 	mCamComp->SetMoveComp(moveShip);
+
+	auto coll = SphereCollision::Create(*this);
+	coll->RadiusFromMesh(mMesh);
+	coll->SetScale(0.75f);
+	// Load the Collecting sound
+	mCollectSound = mAssetCache.Load<Sound>("Sounds/Checkpoint.wav");
 }
 void Ship::Tick(float deltaTime)
 {
@@ -67,4 +73,14 @@ void Ship::Recenter()
 {
 	this->SetRotation(Quaternion::Identity);
 	mCamComp->Initialize();
+}
+
+void Ship::BeginTouch(Actor & other)
+{
+	Super::BeginTouch(other);
+	if (IsA<Checkpoint>(other))
+	{
+		audioComPtr->PlaySound(mCollectSound); // play the collect sound
+		mGame.GetGameMode()->CollectCheckpoint();
+	}
 }

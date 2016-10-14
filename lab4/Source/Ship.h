@@ -19,6 +19,7 @@ public:
 	void BeginPlay() override;
 	void OnRespawnShip();
 	void Recenter();
+	void BeginTouch(Actor& other) override;
 private:
 	InputComponentPtr moveShip;
 	MeshPtr mMesh;
@@ -30,5 +31,6 @@ private:
 	SoundPtr mShipDie;
 	AudioComponentPtr mShipDieSound;
 	CameraComponentPtr mCamComp;
+	SoundPtr mCollectSound;
 };
 DECL_PTR(Ship);

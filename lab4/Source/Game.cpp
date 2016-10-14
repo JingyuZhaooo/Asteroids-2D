@@ -82,6 +82,8 @@ void Game::Quit()
 
 void Game::StartGame()
 {
+	
+
 	const int NUM_ASTEROIDS = 500;
 	Vector3 minVec(-5000, -5000, -5000); 
 	Vector3 maxVec(5000, 5000, 5000); 
@@ -92,6 +94,7 @@ void Game::StartGame()
 	}
 	myShip = Ship::Spawn(*this);
 	myShip->SetPosition(Vector3(0.0f, 0.0f, 0.0f));
+	mGameModePtr = GameMode::Spawn(*this); // Spawn checkpoint after ship
 	//myShip->SetRotation(Quaternion::Identity);
 }
 

@@ -12,6 +12,7 @@
 #include "InputManager.h"
 #include "GameTimers.h"
 #include "CameraComponent.h"
+#include "GameMode.h"
 
 class Game
 {
@@ -29,6 +30,8 @@ public:
 	InputManager& GetInput() { return mInput; }
 	void AddInputMappings();
 	GameTimerManager& GetGameTimers() { return mGameTimer; }
+	ShipPtr GetShip() { return myShip; };
+	GameModePtr GetGameMode() { return mGameModePtr; };
 private:
 	void StartGame();
 	
@@ -49,4 +52,5 @@ private:
 	bool mShouldQuit;
 	InputManager mInput;
 	GameTimerManager mGameTimer;
+	GameModePtr mGameModePtr;
 };

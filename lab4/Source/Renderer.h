@@ -31,6 +31,7 @@ public:
 	void DrawVertexArray(VertexArrayPtr vertArray);
 	void DrawBasicMesh(VertexArrayPtr vertArray, TexturePtr texture, const Matrix4& worldTransform);
 	void UpdateViewMatrix(const Matrix4& newView);
+	Vector3 Unproject(const Vector3& screenPoint) const;
 private:
 	void Clear();
 	void DrawComponents();
