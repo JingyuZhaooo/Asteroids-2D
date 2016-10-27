@@ -2,7 +2,7 @@
 #include "lab5.h"
 #include "lab5PlayerController.h"
 #include "AI/Navigation/NavigationSystem.h"
-
+#include "lab5Character.h"
 Alab5PlayerController::Alab5PlayerController()
 {
 	bShowMouseCursor = true;
@@ -27,6 +27,8 @@ void Alab5PlayerController::SetupInputComponent()
 
 	InputComponent->BindAxis("MoveForward", this, &Alab5PlayerController::MoveForward);
 	InputComponent->BindAxis("MoveRight", this, &Alab5PlayerController::MoveRight);
+	InputComponent->BindAction("Fire", IE_Pressed, this, &Alab5PlayerController::OnStartFire);
+	InputComponent->BindAction("Fire", IE_Released, this, &Alab5PlayerController::OnStopFire);
 	//InputComponent->BindAction("SetDestination", IE_Pressed, this, &Alab5PlayerController::OnSetDestinationPressed);
 	//InputComponent->BindAction("SetDestination", IE_Released, this, &Alab5PlayerController::OnSetDestinationReleased);
 
@@ -136,10 +138,20 @@ void Alab5PlayerController::UpdateMouseLook()
 
 void Alab5PlayerController::OnStartFire()
 {
-
+	APawn* const Pawn = GetPawn();
+	if (Pawn != nullptr)
+	{
+		Alab5Character *player = Cast<Alab5Character>(Pawn);
+		player->OnStartFire();
+	}
 }
 
 void Alab5PlayerController::OnStopFire()
 {
-	//Alab5Character charachter = Cast<Alab5Character>(GetPawn());
+	APawn* const Pawn = GetPawn();
+	if (Pawn)
+	{
+		Alab5Character *player = Cast<Alab5Character>(Pawn);
+		player->OnStopFire();
+	}
 }

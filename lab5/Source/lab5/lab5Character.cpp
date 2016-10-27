@@ -60,6 +60,7 @@ void Alab5Character::BeginPlay()
 				// This is attached to "WeaponPoint" which is defined in the skeleton 
 				MyWeapon->AttachToComponent(GetMesh(),
 							FAttachmentTransformRules::KeepRelativeTransform, TEXT("WeaponPoint")); 
+				MyWeapon->SetMyOwner(this);
 			}
 		} 
 	} 
