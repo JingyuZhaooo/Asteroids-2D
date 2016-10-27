@@ -16,6 +16,7 @@ class Alab5Character : public ACharacter
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Camera, meta = (AllowPrivateAccess = "true"))
 	class USpringArmComponent* CameraBoom;
 
+	class AWeapon* MyWeapon;
 
 public:
 	Alab5Character();
@@ -24,5 +25,13 @@ public:
 	FORCEINLINE class UCameraComponent* GetTopDownCameraComponent() const { return TopDownCameraComponent; }
 	/** Returns CameraBoom subobject **/
 	FORCEINLINE class USpringArmComponent* GetCameraBoom() const { return CameraBoom; }
+
+	void BeginPlay() override;
+
+	void OnStartFire();
+
+	void OnStopFire();
+protected:
+	UPROPERTY(EditAnywhere, Category = Weapon) TSubclassOf<class AWeapon> WeaponClass;
 };
 

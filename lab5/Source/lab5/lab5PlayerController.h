@@ -2,12 +2,10 @@
 #pragma once
 #include "GameFramework/PlayerController.h"
 #include "lab5PlayerController.generated.h"
-
 UCLASS()
 class Alab5PlayerController : public APlayerController
 {
 	GENERATED_BODY()
-
 public:
 	Alab5PlayerController();
 
@@ -32,6 +30,11 @@ protected:
 	/** Input handlers for SetDestination action. */
 	void OnSetDestinationPressed();
 	void OnSetDestinationReleased();
+	void MoveForward(float Value);
+	void MoveRight(float Value);
+	void UpdateMouseLook();
+	void OnStartFire();
+	void OnStopFire();
 };
 
 

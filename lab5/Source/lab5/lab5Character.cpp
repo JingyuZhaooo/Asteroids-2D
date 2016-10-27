@@ -2,6 +2,7 @@
 
 #include "lab5.h"
 #include "lab5Character.h"
+#include "Weapon.h"
 
 Alab5Character::Alab5Character()
 {
@@ -32,4 +33,50 @@ Alab5Character::Alab5Character()
 	TopDownCameraComponent->SetupAttachment(CameraBoom, USpringArmComponent::SocketName);
 	TopDownCameraComponent->bUsePawnControlRotation = false; // Camera does not rotate relative to arm
 
+	MyWeapon = nullptr;
+}
+
+void Alab5Character::BeginPlay()
+{
+	// Call base class BeginPlay 
+	Super::BeginPlay(); 
+	// Spawn the weapon, if one was specified 
+	if (WeaponClass) 
+	{ 
+		UWorld* World = GetWorld(); 
+		if (World) 
+		{
+			FActorSpawnParameters SpawnParams; 
+			SpawnParams.Owner = this; 
+			SpawnParams.Instigator = Instigator;
+			// Need to set rotation like this because otherwise gun points down 
+			FRotator Rotation(0.0f, 0.0f, -90.0f);
+
+			// Spawn the Weapon 
+			MyWeapon = World->SpawnActor<AWeapon>(WeaponClass, FVector::ZeroVector, Rotation, SpawnParams); 
+				
+			if (MyWeapon) 
+			{ 
+				// This is attached to "WeaponPoint" which is defined in the skeleton 
+				MyWeapon->AttachToComponent(GetMesh(),
+							FAttachmentTransformRules::KeepRelativeTransform, TEXT("WeaponPoint")); 
+			}
+		} 
+	} 
+}
+
+void Alab5Character::OnStartFire()
+{
+	if (MyWeapon != nullptr)
+	{
+		MyWeapon->OnStartFire();
+	}
+}
+
+void Alab5Character::OnStopFire()
+{
+	if (MyWeapon != nullptr)
+	{
+		MyWeapon->OnStopFire();
+	}
 }
