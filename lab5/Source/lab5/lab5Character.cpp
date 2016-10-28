@@ -1,6 +1,7 @@
 // Copyright 1998-2015 Epic Games, Inc. All Rights Reserved.
 
 #include "lab5.h"
+#include "lab5PlayerController.h"
 #include "lab5Character.h"
 #include "Weapon.h"
 
@@ -34,6 +35,8 @@ Alab5Character::Alab5Character()
 	TopDownCameraComponent->bUsePawnControlRotation = false; // Camera does not rotate relative to arm
 
 	MyWeapon = nullptr;
+	mIsDead = false;
+
 }
 
 void Alab5Character::BeginPlay()
@@ -68,7 +71,7 @@ void Alab5Character::BeginPlay()
 
 void Alab5Character::OnStartFire()
 {
-	if (MyWeapon != nullptr)
+	if (MyWeapon != nullptr && !mIsDead)
 	{
 		MyWeapon->OnStartFire();
 	}
@@ -76,8 +79,39 @@ void Alab5Character::OnStartFire()
 
 void Alab5Character::OnStopFire()
 {
-	if (MyWeapon != nullptr)
+	if (MyWeapon != nullptr && !mIsDead)
 	{
 		MyWeapon->OnStopFire();
 	}
+}
+
+void Alab5Character::RemovePlayer()
+{
+	GetMesh()->Deactivate();
+}
+
+float Alab5Character::TakeDamage(float Damage, FDamageEvent const & DamageEvent, AController * EventInstigator, AActor * DamageCauser)
+{
+	float ActualDamage = Super::TakeDamage(Damage, DamageEvent, EventInstigator, DamageCauser);
+	if (ActualDamage > 0.0f)
+	{
+		Health -= ActualDamage;
+		if (Health <= 0.0f)
+		{
+			// We're dead, don't allow further damage
+			bCanBeDamaged = false;
+			mIsDead = true;
+			// TODO: Process death
+			OnStopFire();
+			float duration = PlayAnimMontage(DeathAnim);
+			APlayerController* PC = Cast<APlayerController>(GetController());
+			if (PC)
+			{
+				PC->SetCinematicMode(true, true, true);
+			}
+			GetWorldTimerManager().SetTimer(OnDeathTimer, this, &Alab5Character::RemovePlayer, duration - 0.25f, true);
+		}
+	}
+	
+	return ActualDamage;
 }

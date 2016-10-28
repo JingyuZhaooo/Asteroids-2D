@@ -29,9 +29,14 @@ public:
 	void BeginPlay() override;
 
 	void OnStartFire();
-
 	void OnStopFire();
+	float TakeDamage(float Damage, FDamageEvent const& DamageEvent, AController* EventInstigator, AActor* DamageCauser) override;
+	void RemovePlayer();
 protected:
 	UPROPERTY(EditAnywhere, Category = Weapon) TSubclassOf<class AWeapon> WeaponClass;
+	UPROPERTY(EditAnywhere, Category = Damage) float Health = 100.0f;
+	UPROPERTY(EditDefaultsOnly) UAnimMontage* DeathAnim;
+	FTimerHandle OnDeathTimer;
+	bool mIsDead;
 };
 

@@ -1,6 +1,7 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
 #include "lab5.h"
+#include "DwarfCharacter.h"
 #include "Weapon.h"
 #include "Sound/SoundCue.h"
 #include "Particles/ParticleSystemComponent.h"
@@ -90,6 +91,10 @@ void AWeapon::WeaponTrace()
 	{ 
 		// TODO: Actually do something 
 		UGameplayStatics::SpawnEmitterAtLocation(this, HitEffect, Hit.ImpactPoint);
-
+		ADwarfCharacter* Dwarf = Cast<ADwarfCharacter>(Hit.GetActor()); 
+		if (Dwarf != nullptr) 
+		{
+			Dwarf->TakeDamage(Damage, FDamageEvent(), GetInstigatorController(), this); 
+		}
 	}
 }

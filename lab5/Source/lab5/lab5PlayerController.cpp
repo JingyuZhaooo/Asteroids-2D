@@ -118,22 +118,24 @@ void Alab5PlayerController::MoveRight(float Value)
 
 void Alab5PlayerController::UpdateMouseLook()
 {
-	APawn* pawn = GetPawn();
-	if (pawn != nullptr)
+	if (!IsLookInputIgnored())
 	{
-		// Trace to see what is under the mouse cursor
-		FHitResult Hit;
-		GetHitResultUnderCursor(ECC_Visibility, false, Hit);
-		if (Hit.bBlockingHit)
+		APawn* pawn = GetPawn();
+		if (pawn != nullptr)
 		{
-			FVector vector = Hit.ImpactPoint - pawn->GetActorLocation();
-			vector.Z = 0.0f;
-			vector.Normalize();
-			FRotator rotator = vector.Rotation();
-			pawn->SetActorRotation(rotator);
+			// Trace to see what is under the mouse cursor
+			FHitResult Hit;
+			GetHitResultUnderCursor(ECC_Visibility, false, Hit);
+			if (Hit.bBlockingHit)
+			{
+				FVector vector = Hit.ImpactPoint - pawn->GetActorLocation();
+				vector.Z = 0.0f;
+				vector.Normalize();
+				FRotator rotator = vector.Rotation();
+				pawn->SetActorRotation(rotator);
+			}
 		}
 	}
-	
 }
 
 void Alab5PlayerController::OnStartFire()

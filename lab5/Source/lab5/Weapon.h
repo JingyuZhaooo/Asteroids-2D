@@ -44,4 +44,5 @@ protected:
 	UPROPERTY(EditAnywhere) float WeaponRange;
 	UPROPERTY(EditDefaultsOnly) class UParticleSystem* HitEffect;
 	FTimerHandle WeaponTimer;
+	UPROPERTY(EditAnywhere, Category = Damage) float Damage = 2.0f;
 };
