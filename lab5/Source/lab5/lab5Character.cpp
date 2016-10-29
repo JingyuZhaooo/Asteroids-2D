@@ -112,6 +112,5 @@ float Alab5Character::TakeDamage(float Damage, FDamageEvent const & DamageEvent,
 			GetWorldTimerManager().SetTimer(OnDeathTimer, this, &Alab5Character::RemovePlayer, duration - 0.25f, true);
 		}
 	}
-	
 	return ActualDamage;
 }

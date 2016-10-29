@@ -32,7 +32,7 @@ public:
 private:
 	UPROPERTY(EditDefaultsOnly) UAnimMontage* AttackAnim;
 	UPROPERTY(EditAnywhere, Category = Damage) float Health = 20.0f;
-	UPROPERTY(EditAnywhere, Category = Damage) float Damage = 100.0f;
+	UPROPERTY(EditAnywhere, Category = Damage) float Damage = 10.0f;
 	UPROPERTY(EditDefaultsOnly) UAnimMontage* DeathAnim;
 
 	FTimerHandle OnDeathTimer;
